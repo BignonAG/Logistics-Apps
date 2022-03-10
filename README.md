@@ -1,5 +1,5 @@
 1. Importer le projet en local et bosser dessus
-	* Ouvrir git bash dans un nouveau puis executer cette commande : git clone https://dev.azure.com/Contact0137/Ynity%20Dev/_git/Pyvvo_logistics_dotnet_core_angular
+	* Ouvrir git bash dans un nouveau puis executer cette commande : git clone ##
 
 2. Une fois projet pour commencer il faut à chaque fois créer une nouvelle branche sur laquelle développer chaque fonctionalié 
 	* Commande : git checkout -b <nom-de-la-branche>. 
