@@ -1,0 +1,222 @@
+<nb-card [nbSpinner]="cardLoading"
+         nbSpinnerStatus="danger"
+         nbSpinnerSize="large"
+         nbSpinnerMessage="">
+  <nb-card-header>
+    {{formTitle}}
+  </nb-card-header>
+
+  <nb-card-body>
+    <form [formGroup]="customerForm" (ngSubmit)="upsertCustomer(customerForm.value)" #formDir="ngForm" novalidate style="padding:20px;">
+
+      <!--------------------------- Contact fields ------------------>
+      <ng-container formGroupName="contact">
+
+        <h6>Customer contact informations</h6>
+
+        <!-- Firstname -->
+        <div class="mg-top form-group row">
+          <label for="firstname" class="col-3 col-sm-3 col-form-label">Firstname</label>
+          <div class="col-9 col-sm-9">
+            <input type="text" nbInput fullWidth id="firstname" placeholder="Your firstname" formControlName="firstName">
+            <span class="text-danger" *ngIf="customerForm.hasError('required', ['firstName']) && formDir.submitted">
+              Please enter a firstname.
+            </span>
+          </div>
+        </div>
+
+        <!-- Lastname -->
+        <div class="mg-top form-group row">
+          <label for="lastName" class="col-3 col-sm-3 col-form-label">Lastname</label>
+          <div class="col-9 col-sm-9">
+            <input type="text" nbInput fullWidth id="lastName" placeholder="Your lastName" formControlName="lastName">
+            <span class="text-danger" *ngIf="customerForm.hasError('required', ['lastName']) && formDir.submitted">
+              Please enter a lastName.
+            </span>
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="mg-top form-group row">
+          <label for="email" class="col-3 col-sm-3 col-form-label">Email</label>
+          <div class="col-9 col-sm-9">
+            <input type="email" nbInput fullWidth id="email" placeholder="email" formControlName="email">
+            <span class="text-danger" *ngIf="customerForm.hasError('required', ['email']) && formDir.submitted">
+              Please enter a valid email.
+            </span>
+          </div>
+        </div>
+
+
+        <!-- Phone -->
+        <div class="mg-top form-group row">
+          <label for="phone" class="col-3 col-sm-3 col-form-label">Phone</label>
+          <div class="col-9 col-sm-9">
+            <input type="text" nbInput fullWidth id="phone" placeholder="Phone" formControlName="phone">
+          </div>
+        </div>
+
+        <div class="mg-top form-group row">
+          <label for="website" class="col-3 col-sm-3 col-form-label">Website</label>
+          <div class="col-9 col-sm-9">
+            <input type="text" nbInput fullWidth id="website" placeholder="Website url" formControlName="website">
+          </div>
+        </div>
+
+        <div class="mg-top form-group row">
+          <label for="facebook" class="col-3 col-sm-3 col-form-label">Facebook</label>
+          <div class="col-9 col-sm-9">
+            <input type="text" nbInput fullWidth id="facebook" placeholder="Facebook url" formControlName="facebook">
+          </div>
+        </div>
+
+        <div class="mg-top form-group row">
+          <label for="linkedin" class="col-3 col-sm-3 col-form-label">Linkedin</label>
+          <div class="col-9 col-sm-9">
+            <input type="text" nbInput fullWidth id="linkedin" placeholder="Linkedin url" formControlName="linkedin">
+          </div>
+        </div>
+
+        <div class="mg-top form-group row">
+          <label for="viadeo" class="col-3 col-sm-3 col-form-label">Viadeo</label>
+          <div class="col-9 col-sm-9">
+            <input type="text" nbInput fullWidth id="viadeo" placeholder="Viadeo url" formControlName="viadeo">
+          </div>
+        </div>
+
+      </ng-container>
+
+      <ng-container formGroupName="status">
+        <div class="mg-top form-group row">
+          <label for="status" class="label col-sm-3 col-form-label">Status</label>
+          <div class="col-9 col-sm-9">
+            <nb-select id="status" placeholder="Status"
+                       formControlName="id" style="width:100%" aria-describedby="newStatus" selected ="{{selectedStatusId}}">
+              <nb-option *ngFor="let statusOption of status" value="{{statusOption.id}}">
+                {{statusOption.name}}
+              </nb-option>
+            </nb-select>
+            <span class="text-danger" *ngIf="customerForm.hasError('required', ['id']) && formDir.submitted">
+              Please enter a valid status.
+            </span>
+            <!--<small id="newStatus" class="form-text text-muted">
+          <a nbButton ghost status="primary" size="tiny" (click)="openDialog()">
+            <nb-icon icon="plus-outline"></nb-icon>Add new status
+          </a>
+        </small>-->
+          </div>
+        </div>
+      </ng-container>
+
+      <!------------------------------Shipping Address fields------------------------------->
+      <ng-container formGroupName="shippingAddress">
+
+        <h6 class="mg-top50">Customer shipping address informations</h6>
+
+        <div class="mg-top form-group row">
+          <label for="address1" class="col-3 col-sm-3 col-form-label">Address line 1</label>
+          <div class="col-9 col-sm-9">
+            <input type="text" nbInput fullWidth id="address1" placeholder="Number, street, avenue" formControlName="address1">
+            <span class="text-danger" *ngIf="customerForm.hasError('required', ['address1']) && formDir.submitted">
+              Please enter your address.
+            </span>
+          </div>
+        </div>
+
+        <div class="mg-top form-group row">
+          <label for="address2" class="col-3 col-sm-3 col-form-label">Address line 2</label>
+          <div class="col-9 col-sm-9">
+            <input type="text" nbInput fullWidth id="address1" placeholder="N° App, N°Building, etc.." formControlName="address2">
+          </div>
+        </div>
+
+        <div class="mg-top form-group row">
+          <label for="province" class="col-3 col-sm-3 col-form-label">Province</label>
+          <div class="col-9 col-sm-9">
+            <input type="text" nbInput fullWidth id="province" placeholder="Province" formControlName="province">
+          </div>
+        </div>
+
+        <div class="mg-top form-group row">
+          <label for="zip" class="col-3 col-sm-3 col-form-label">Zip code</label>
+          <div class="col-9 col-sm-9">
+            <input type="text" nbInput fullWidth id="zip" placeholder="Zip code" formControlName="zip">
+            <span class="text-danger" *ngIf="customerForm.hasError('required', ['zip']) && formDir.submitted">
+              Please enter your zip code.
+            </span>
+          </div>
+        </div>
+
+        <div class="mg-top form-group row">
+          <label for="country" class="col-3 col-sm-3 col-form-label">Country</label>
+          <div class="col-9 col-sm-9">
+            <input type="text" nbInput fullWidth id="country" placeholder="Country" formControlName="country">
+            <span class="text-danger" *ngIf="customerForm.hasError('required', ['coutry']) && formDir.submitted">
+              Please enter your country.
+            </span>
+          </div>
+        </div>
+      </ng-container>
+
+      <!------------------------------Billing Address fields------------------------------->
+      <ng-container formGroupName="billingAddress">
+
+        <h6 class="mg-top50">Customer billing address information</h6>
+
+        <div class="mg-top form-group row">
+          <div class="col-9 col-sm-9">
+            <nb-toggle [(checked)]="sameAddressChecked" labelPosition="start" (checkedChange)="toggle($event)">The billing address is the same as the shipping address.</nb-toggle>
+          </div>
+        </div>
+
+        <div [hidden]="sameAddressChecked">
+
+          <div class="mg-top form-group row">
+            <label for="address1" class="col-3 col-sm-3 col-form-label">Address line 1</label>
+            <div class="col-9 col-sm-9">
+              <input type="text" nbInput fullWidth id="address1" placeholder="Number, street, avenue" formControlName="address1">
+            </div>
+          </div>
+
+          <div class="mg-top form-group row">
+            <label for="address2" class="col-3 col-sm-3 col-form-label">Address line 2</label>
+            <div class="col-9 col-sm-9">
+              <input type="text" nbInput fullWidth id="address1" placeholder="N° App, N°Building, etc.." formControlName="address2">
+            </div>
+          </div>
+
+          <div class="mg-top form-group row">
+            <label for="province" class="col-3 col-sm-3 col-form-label">Province</label>
+            <div class="col-9 col-sm-9">
+              <input type="text" nbInput fullWidth id="province" placeholder="Province" formControlName="province">
+            </div>
+          </div>
+
+          <div class="mg-top form-group row">
+            <label for="zip" class="col-3 col-sm-3 col-form-label">Zip code</label>
+            <div class="col-9 col-sm-9">
+              <input type="text" nbInput fullWidth id="zip" placeholder="Zip code" formControlName="zip">
+            </div>
+          </div>
+
+          <div class="mg-top form-group row">
+            <label for="country" class="col-3 col-sm-3 col-form-label">Country</label>
+            <div class="col-9 col-sm-9">
+              <input type="text" nbInput fullWidth id="country" placeholder="Country" formControlName="country">
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+      <p class="text-danger" *ngIf="errorMessage">{{errorMessage}}</p>
+
+      <div class="mg-top form-group row">
+        <div class="offset-sm-3 col-sm-9">
+          <button type="submit" nbButton status="primary" [nbSpinner]="loading" nbSpinnerStatus="control">{{txtBtnSubmit}}</button>
+        </div>
+      </div>
+
+    </form>
+
+  </nb-card-body>
+</nb-card>

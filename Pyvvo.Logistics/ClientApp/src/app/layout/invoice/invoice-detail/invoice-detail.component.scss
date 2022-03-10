@@ -1,0 +1,19 @@
+.clearfix::after {
+  display: block;
+  clear: both;
+  content: ""
+}
+
+.logo-concat{
+    font-size:20px;
+    margin:12px 0 0 6px;
+}
+
+h5 {
+  margin-bottom: 30px;
+
+  span {
+    font-size: 14px;
+  }
+}
+

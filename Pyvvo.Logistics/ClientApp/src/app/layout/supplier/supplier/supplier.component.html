@@ -1,0 +1,56 @@
+<ng-container *ngIf="suppliers">
+
+  <div class="container-fluid">
+    <!--*** row ***-->
+    <div class="row page-title">
+      <h5 class="col-lg-10 col-md-10 col-sm-12">Suppliers</h5>
+      <div class="col-lg-2 col-md-2 col-sm-12">
+        <a class="float-right" [routerLink]="['/app/supplier/create']" nbButton status="primary" size="small">
+          <nb-icon icon="plus"></nb-icon>
+          Create new supplier
+        </a>
+      </div>
+    </div>
+    <!--*** row ***-->
+        <nb-card [nbSpinner]="loading" nbSpinnerStatus="primary" nbSpinnerSize="large" nbSpinnerMessage="" class="row">
+          <nb-card-body class="full-width">
+            <p class="text-success" *ngIf="successMessage">{{successMessage}}</p>
+            <p class="text-danger" *ngIf="errorMessage">{{errorMessage}}</p>
+            <table class="table">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Phone</th>
+                  <th scope="col">Created on</th>
+                  <th scope="col">Active</th>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody *ngIf="suppliers">
+                <tr *ngFor="let supplier of suppliers; let index = index;">
+                  <td>{{index + 1}}</td>
+                  <td>
+                    <a [routerLink]="['/app/supplier', supplier.id]">
+                      <b>{{supplier.contact.firstName}} {{supplier.contact.lastName}}</b>
+                    </a>
+                  </td>
+                  <td>{{supplier.contact.email}}</td>
+                  <td>{{supplier.contact.phone}}</td>
+                  <td>{{supplier.createdOnLocalTime}}</td>
+                  <td>{{supplier.isActive}}</td>
+                  <td>
+                    <a [routerLink]="['/supplier/update',supplier.id]" nbButton ghost status="warning"><nb-icon icon="edit"></nb-icon></a>
+                    <button nbButton ghost status="danger" (click)="deleteSupplier(supplier.id)"><nb-icon icon="trash-2"></nb-icon></button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <p *ngIf="message">{{message}}</p>
+
+          </nb-card-body>
+        </nb-card>
+  </div>
+</ng-container>

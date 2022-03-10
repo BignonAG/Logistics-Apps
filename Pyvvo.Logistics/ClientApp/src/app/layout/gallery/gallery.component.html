@@ -1,0 +1,39 @@
+<nb-card status="primary" size="large">
+  <nb-card-header>Pickup an media</nb-card-header>
+  <nb-card-body>
+    <div class="container">
+
+      <div class="row">
+        <div class="col-6">
+          <h3 class="font-weight-light text-center text-lg-left mt-4 mb-0">Image Gallery</h3>
+        </div>
+        <div class="col-6">
+
+          <button nbButton status="primary" size="tiny" class="float-right text-center text-lg-left mt-4 mb-0"  (click)="file.click()">
+            <nb-icon icon="plus"></nb-icon> add new media
+          </button>
+          <input type="file" accept="image/*" #file style="display:none;" (change)="onFileChange($event)">
+        </div>
+      </div>
+
+      <hr class="mt-2 mb-5">
+
+      <div class="row text-center text-lg-left" >
+
+        <div class="col-lg-3 col-md-4 col-6" *ngFor="let image of images">
+          <span (click)="delete(image.fileName)" class="btn-close text-danger"><nb-icon icon="close-outline"></nb-icon></span>
+          <a (click)="pickItem(image.pathUrl)" class="d-block mb-4 h-100">
+            <img class="img-fluid" [src]="image.pathUrl" [alt]="image.fileName">
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+  </nb-card-body>
+  <nb-card-footer>
+    <button nbButton status="control" (click)="close()" >close</button>
+  </nb-card-footer>
+</nb-card>
+
+<!-- /.container -->

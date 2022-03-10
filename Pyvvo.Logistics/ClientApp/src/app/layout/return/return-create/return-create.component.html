@@ -1,0 +1,207 @@
+<nb-card [nbSpinner]="cardLoading"
+         nbSpinnerStatus="danger"
+         nbSpinnerSize="large"
+         nbSpinnerMessage="">
+  <nb-card-header>
+    {{formTitle}}
+  </nb-card-header>
+
+  <nb-card-body>
+    <form [formGroup]="returnForm" (ngSubmit)="upsert(returnForm.value)" #formDir="ngForm" novalidate style="padding:20px;">
+
+      <!--Order product variant item-->
+      <div class="mg-top form-group row" style="margin-top:25px;">
+        <label for="order" class="col-3 col-sm-3 col-form-label">Order item</label>
+        <div class="col-9 col-sm-9">
+          <a size="tiny" nbButton status="basic" (click)="openDialog()" style="margin-top:8px;">
+            <nb-icon icon="plus"></nb-icon> select order item
+          </a>
+          <div class="text-danger" *ngIf="orderLineItemSelectErrorMessage">
+            {{orderLineItemSelectErrorMessage}}
+          </div>
+          <table class="table table-borderless table-md" style="margin-top:20px;"
+                 *ngIf="checkedOrderItems.length > 0">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">Product item name</th>
+                <th scope="col">Price</th>
+                <th></th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Total price</th>
+                <th></th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <ng-container *ngFor="let order of checkedOrderItems">
+                <ng-container *ngFor="let item of order.orderLineItems">
+                  <tr *ngIf="item.checked">
+                    <td><a href="#"><b>{{item.variant.name}}</b></a></td>
+                    <td><span><b>{{item.variant.retailPrice}} €</b></span></td>
+                    <td>x</td>
+                    <td><b>{{item.quantity}} </b></td>
+                    <td><span><b>{{item.totalPrice}} €</b></span></td>
+                    <td>
+                      <a size="tiny" nbButton ghost status="danger">
+                        <nb-icon icon="trash-2" (click)="remove(item)"></nb-icon>
+                      </a>
+                    </td>
+                  </tr>
+                </ng-container>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Total price -->
+      <div class="mg-top form-group row">
+        <label for="totalPrice" class="col-3 col-sm-3 col-form-label">Return total price</label>
+        <div class="col-3 col-sm-3">
+          <input type="text" nbInput fullWidth id="totalPrice" formControlName="totalPrice" readonly="readonly"
+                 value="{{totalPrice}} {{currencySymbol}}">
+        </div>
+      </div>
+
+      <!-- Shipped on-->
+      <div class="row">
+        <div class="col-6 col-sm-12">
+          <div class="mg-top form-group row">
+            <label for="shippedOn" class="col-3 col-sm-3 col-form-label">Shipped on</label>
+            <div class="col-9 col-sm-9">
+              <input nbInput id="shippedOn" placeholder="Pick Date" autocomplete="off"
+                     [nbDatepicker]="shippedOn" formControlName="shippedOn">
+              <nb-datepicker #shippedOn></nb-datepicker>
+            </div>
+          </div>
+        </div>
+
+        <!--Receive on -->
+        <div class="col-6 col-sm-12">
+          <div class="mg-top form-group row">
+            <label for="receiveOn" class="col-3 col-sm-3 col-form-label">Receive on</label>
+            <div class="col-9 col-sm-9">
+              <input nbInput id="receiveOn" placeholder="Pick Date" autocomplete="off"
+                     [nbDatepicker]="receiveOn" formControlName="receiveOn">
+              <nb-datepicker #receiveOn></nb-datepicker>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Start on-->
+      <div class="row">
+        <div class="col-6 col-sm-12">
+          <div class="mg-top form-group row">
+            <label for="startOn" class="col-3 col-sm-3 col-form-label">Start on</label>
+            <div class="col-9 col-sm-9">
+              <input nbInput id="startOn" placeholder="Pick Date" autocomplete="off"
+                     [nbDatepicker]="startOn" formControlName="startDate">
+              <nb-datepicker #startOn></nb-datepicker>
+            </div>
+          </div>
+        </div>
+
+        <!--End on -->
+        <div class="col-6 col-sm-12">
+          <div class="mg-top form-group row">
+            <label for="endOn" class="col-3 col-sm-3 col-form-label">End on</label>
+            <div class="col-9 col-sm-9">
+              <input nbInput id="endOn" placeholder="Pick Date" autocomplete="off"
+                     [nbDatepicker]="endOn" formControlName="endDate">
+              <nb-datepicker #endOn></nb-datepicker>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--Send update-->
+      <div class="mg-top form-group row">
+        <label for="sendUpdate" class="col-3 col-sm-3 col-form-label"></label>
+        <div class="col-9 col-sm-9  float-right">
+          <nb-checkbox formControlName="sendUpdate">Send update</nb-checkbox>
+        </div>
+      </div>
+
+      <!--Track number-->
+      <div class="mg-top form-group row">
+        <label for="trackNumber" class="col-3 col-sm-3 col-form-label">Tracking number</label>
+        <div class="col-3 col-sm-3">
+          <input type="text" nbInput fullWidth id="trackNumber"
+                 placeholder="Enter tracking number" formControlName="trackNumber">
+        </div>
+      </div>
+
+      <!--Track url-->
+      <div class="mg-top form-group row">
+        <label for="trackUrl" class="col-3 col-sm-3 col-form-label">Tracking url</label>
+        <div class="col-3 col-sm-3">
+          <input type="text" nbInput fullWidth id="trackUrl"
+                 placeholder="Enter tacking url" formControlName="trackUrl">
+        </div>
+      </div>
+
+      <!--Shipping charge-->
+      <div class="mg-top form-group row">
+        <label for="shippingCharge" class="col-3 col-sm-3 col-form-label">Shipping charge</label>
+        <div class="col-3 col-sm-3">
+          <input type="text" nbInput fullWidth id="shippingCharge"
+                 placeholder="Enter shipping charge" formControlName="shippingCharge">
+        </div>
+      </div>
+
+      <!--agent -->
+      <ng-container formGroupName="agent">
+        <div class="mg-top form-group row">
+          <label for="agent" class="col-3 col-sm-3 col-form-label">Agent</label>
+          <div class="col-9 col-sm-9">
+            <nb-select id="agent" placeholder="-- Select a user --" formControlName="id" style="width:100%"
+                       selected="{{selectedAgentId}}">
+              <nb-option *ngFor="let agent of agents" value="{{agent.id}}">
+                {{agent.contact.firstName}} {{agent.contact.lastName}}
+              </nb-option>
+            </nb-select>
+            <div class="text-danger" *ngIf="formDir.submitted && formSecondGroupLevelHasError('agent','id', 'required')">
+              Please select a agent.
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+      <!--Status -->
+      <ng-container formGroupName="status">
+        <div class="mg-top form-group row">
+          <label for="status" class="col-3 col-sm-3 col-form-label">Status</label>
+          <div class="col-9 col-sm-9">
+            <nb-select id="status" placeholder="-- Select a status --" formControlName="id" style="width:100%"
+                       selected="{{selectedStatusId}}">
+              <nb-option *ngFor="let statusItem of status" value="{{statusItem.id}}">
+                {{statusItem.name}}
+              </nb-option>
+            </nb-select>
+            <div class="text-danger" *ngIf="formDir.submitted && formSecondGroupLevelHasError('status','id', 'required')">
+              Please select a status.
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+      <div class="mg-top form-group row">
+        <label for="active" class="col-3 col-sm-3 col-form-label"></label>
+        <div class="col-9 col-sm-9  float-right">
+          <nb-checkbox formControlName="isActive">Turn return status to active </nb-checkbox>
+        </div>
+      </div>
+
+      <p class="text-danger" *ngIf="errorMessage">{{errorMessage}}</p>
+
+      <div class="mg-top form-group row">
+        <div class="offset-sm-3 col-sm-9">
+          <button type="submit" nbButton status="primary" [nbSpinner]="loading" nbSpinnerStatus="control">{{txtBtnSubmit}}</button>
+        </div>
+      </div>
+
+    </form>
+
+  </nb-card-body>
+</nb-card>

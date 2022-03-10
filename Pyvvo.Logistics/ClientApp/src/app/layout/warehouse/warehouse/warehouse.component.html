@@ -1,0 +1,87 @@
+<ng-container *ngIf="warehouses">
+
+  <div class="container-fluid">
+    <!--*** row ***-->
+    <div class="row page-title">
+      <div class="col-lg-10 col-md-10 col-sm-12">
+        <h5>
+          Warehouse
+        </h5>
+      </div>
+    </div>
+
+    <!--*** row ***-->
+    <div class="row">
+      <nb-card accent="primary" class="col-12">
+        <nb-card-body>
+          <nb-actions size="small" class="float-right">
+            <nb-action>
+              <a [routerLink]="['/app/warehouse/create']" nbButton ghost status="primary">
+                <nb-icon icon="plus"></nb-icon>New
+              </a>
+            </nb-action>
+            <nb-action *ngIf="editButton">
+              <a nbButton ghost status="warning" [routerLink]="['/app/warehouse/update',id]" >
+                <nb-icon icon="edit" ></nb-icon>Edit
+              </a>
+            </nb-action>
+            <nb-action *ngIf="deleteButton" (click)="delete()">
+              <a nbButton ghost status="danger">
+                <nb-icon icon="trash-2"></nb-icon>Delete
+              </a>
+            </nb-action>
+          </nb-actions>
+        </nb-card-body>
+      </nb-card>
+    </div>
+
+    <!--*** row ***-->
+    <nb-card [nbSpinner]="loading" nbSpinnerStatus="primary" nbSpinnerSize="large" nbSpinnerMessage="" class="row">
+      <nb-card-body class="full-width">
+        <table class="table">
+          <thead class="thead-dark">
+            <tr>
+              <th class="sticky" scope="col">
+                <nb-checkbox [checked]="ColumnCheckButton" class="nb-checkbox" (checkedChange)="checkAllRow($event)">
+                </nb-checkbox>
+              </th>
+              <th scope="col">#</th>
+              <th scope="col">Name</th>
+              <th scope="col">Email</th>
+              <th scope="col">Phone</th>
+              <th scope="col">Created on</th>
+              <th scope="col">Active</th>
+              <!-- <th scope="col"></th> -->
+            </tr>
+          </thead>
+          <tbody *ngIf="warehouses">
+            <tr *ngFor="let warehouse of warehouses; let index = index;">
+              <td class="sticky">
+                <nb-checkbox [checked]="warehouse.state" class="nb-checkbox"
+                  (checkedChange)="RowIsChecked( index,$event )"></nb-checkbox>
+              </td>
+              <td>{{index + 1}}</td>
+              <td>
+                <a [routerLink]="['/app/warehouse', warehouse.id]">
+                  <b>{{warehouse.data.contact.firstName}} {{warehouse.data.contact.lastName}}</b>
+                </a>
+              </td>
+              <td>{{warehouse.data.contact.email}}</td>
+              <td>{{warehouse.data.contact.phone}}</td>
+              <td>{{warehouse.data.createdOnLocalTime}}</td>
+              <td>{{warehouse.data.isActive}}</td>
+              <!-- <td>
+                <a [routerLink]="['/warehouse/update',warehouse.id]" nbButton ghost status="warning">
+                  <nb-icon icon="edit"></nb-icon>
+                </a>
+                <button nbButton ghost status="danger" (click)="delete(warehouse.id)">
+                  <nb-icon icon="trash-2"></nb-icon>
+                </button>
+              </td> -->
+            </tr>
+          </tbody>
+        </table>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</ng-container>

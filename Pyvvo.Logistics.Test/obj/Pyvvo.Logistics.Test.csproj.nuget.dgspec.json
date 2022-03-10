@@ -1,0 +1,283 @@
+{
+  "format": 1,
+  "restore": {
+    "c:\\Users\\KENAG\\Documents\\Pyvvo\\Pyvvo\\Pyvvo_logistics_dotnet_core_angular\\Pyvvo.Logistics.Test\\Pyvvo.Logistics.Test.csproj": {}
+  },
+  "projects": {
+    "c:\\Users\\KENAG\\Documents\\Pyvvo\\Pyvvo\\Pyvvo_logistics_dotnet_core_angular\\Pyvvo.Logistics.Core\\Pyvvo.Logistics.Core.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "c:\\Users\\KENAG\\Documents\\Pyvvo\\Pyvvo\\Pyvvo_logistics_dotnet_core_angular\\Pyvvo.Logistics.Core\\Pyvvo.Logistics.Core.csproj",
+        "projectName": "Pyvvo.Logistics.Core",
+        "projectPath": "c:\\Users\\KENAG\\Documents\\Pyvvo\\Pyvvo\\Pyvvo_logistics_dotnet_core_angular\\Pyvvo.Logistics.Core\\Pyvvo.Logistics.Core.csproj",
+        "packagesPath": "C:\\Users\\KENAG\\.nuget\\packages\\",
+        "outputPath": "c:\\Users\\KENAG\\Documents\\Pyvvo\\Pyvvo\\Pyvvo_logistics_dotnet_core_angular\\Pyvvo.Logistics.Core\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\KENAG\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "targetAlias": "netcoreapp3.1",
+            "projectReferences": {
+              "c:\\Users\\KENAG\\Documents\\Pyvvo\\Pyvvo\\Pyvvo_logistics_dotnet_core_angular\\Pyvvo.Logistics.Model\\Pyvvo.Logistics.Model.csproj": {
+                "projectPath": "c:\\Users\\KENAG\\Documents\\Pyvvo\\Pyvvo\\Pyvvo_logistics_dotnet_core_angular\\Pyvvo.Logistics.Model\\Pyvvo.Logistics.Model.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
+          "dependencies": {
+            "Microsoft.AspNetCore.Mvc.NewtonsoftJson": {
+              "target": "Package",
+              "version": "[3.1.5, )"
+            },
+            "Microsoft.Azure.Storage.Blob": {
+              "target": "Package",
+              "version": "[11.2.0, )"
+            },
+            "Microsoft.Azure.Storage.Common": {
+              "target": "Package",
+              "version": "[11.2.0, )"
+            },
+            "Microsoft.IdentityModel.Tokens": {
+              "target": "Package",
+              "version": "[6.6.0, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[6.6.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[3.1.10, 3.1.10]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[3.1.0, 3.1.0]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[3.1.0, 3.1.0]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "c:\\Users\\KENAG\\Documents\\Pyvvo\\Pyvvo\\Pyvvo_logistics_dotnet_core_angular\\Pyvvo.Logistics.Model\\Pyvvo.Logistics.Model.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "c:\\Users\\KENAG\\Documents\\Pyvvo\\Pyvvo\\Pyvvo_logistics_dotnet_core_angular\\Pyvvo.Logistics.Model\\Pyvvo.Logistics.Model.csproj",
+        "projectName": "Pyvvo.Logistics.Model",
+        "projectPath": "c:\\Users\\KENAG\\Documents\\Pyvvo\\Pyvvo\\Pyvvo_logistics_dotnet_core_angular\\Pyvvo.Logistics.Model\\Pyvvo.Logistics.Model.csproj",
+        "packagesPath": "C:\\Users\\KENAG\\.nuget\\packages\\",
+        "outputPath": "c:\\Users\\KENAG\\Documents\\Pyvvo\\Pyvvo\\Pyvvo_logistics_dotnet_core_angular\\Pyvvo.Logistics.Model\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\KENAG\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "targetAlias": "netcoreapp3.1",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
+          "dependencies": {
+            "Microsoft.AspNetCore.Mvc.NewtonsoftJson": {
+              "target": "Package",
+              "version": "[3.1.5, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.1.5, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[3.1.5, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.1.5, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[12.0.3, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[3.1.10, 3.1.10]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[3.1.0, 3.1.0]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[3.1.0, 3.1.0]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "c:\\Users\\KENAG\\Documents\\Pyvvo\\Pyvvo\\Pyvvo_logistics_dotnet_core_angular\\Pyvvo.Logistics.Test\\Pyvvo.Logistics.Test.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "c:\\Users\\KENAG\\Documents\\Pyvvo\\Pyvvo\\Pyvvo_logistics_dotnet_core_angular\\Pyvvo.Logistics.Test\\Pyvvo.Logistics.Test.csproj",
+        "projectName": "Pyvvo.Logistics.Test",
+        "projectPath": "c:\\Users\\KENAG\\Documents\\Pyvvo\\Pyvvo\\Pyvvo_logistics_dotnet_core_angular\\Pyvvo.Logistics.Test\\Pyvvo.Logistics.Test.csproj",
+        "packagesPath": "C:\\Users\\KENAG\\.nuget\\packages\\",
+        "outputPath": "c:\\Users\\KENAG\\Documents\\Pyvvo\\Pyvvo\\Pyvvo_logistics_dotnet_core_angular\\Pyvvo.Logistics.Test\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\KENAG\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "targetAlias": "netcoreapp3.1",
+            "projectReferences": {
+              "c:\\Users\\KENAG\\Documents\\Pyvvo\\Pyvvo\\Pyvvo_logistics_dotnet_core_angular\\Pyvvo.Logistics.Core\\Pyvvo.Logistics.Core.csproj": {
+                "projectPath": "c:\\Users\\KENAG\\Documents\\Pyvvo\\Pyvvo\\Pyvvo_logistics_dotnet_core_angular\\Pyvvo.Logistics.Core\\Pyvvo.Logistics.Core.csproj"
+              },
+              "c:\\Users\\KENAG\\Documents\\Pyvvo\\Pyvvo\\Pyvvo_logistics_dotnet_core_angular\\Pyvvo.Logistics.Model\\Pyvvo.Logistics.Model.csproj": {
+                "projectPath": "c:\\Users\\KENAG\\Documents\\Pyvvo\\Pyvvo\\Pyvvo_logistics_dotnet_core_angular\\Pyvvo.Logistics.Model\\Pyvvo.Logistics.Model.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
+          "dependencies": {
+            "Microsoft.AspNetCore.Mvc.NewtonsoftJson": {
+              "target": "Package",
+              "version": "[3.1.5, )"
+            },
+            "Microsoft.NET.Test.Sdk": {
+              "target": "Package",
+              "version": "[16.4.0, )"
+            },
+            "NUnit3TestAdapter": {
+              "target": "Package",
+              "version": "[3.15.1, )"
+            },
+            "nunit": {
+              "target": "Package",
+              "version": "[3.12.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[3.1.10, 3.1.10]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[3.1.0, 3.1.0]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[3.1.0, 3.1.0]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

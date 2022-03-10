@@ -1,0 +1,13 @@
+<nb-card style="min-height: 500px;">
+      <nb-card-header>
+        Orders over time
+        <button nbButton size="small" ghost status="primary" class="float-right">
+          <nb-icon icon="download-outline"></nb-icon>
+          Export
+        </button>
+      </nb-card-header>
+      <nb-card-body>
+        <chart type="line" [data]="data" [options]="options"></chart>
+      </nb-card-body>
+</nb-card>
+

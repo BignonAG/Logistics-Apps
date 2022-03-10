@@ -1,0 +1,35 @@
+<div class="container-fluid">
+  <h2>Sign up</h2>
+  <!--<h2 class="text-center">Create an account </h2>-->
+  <p class="text-danger text-center" *ngIf="errorMessage">{{errorMessage}}</p>
+  <p class="text-success text-center" *ngIf="successMessage">{{successMessage}}</p>
+  <form [formGroup]="authForm" (ngSubmit)="signUp(authForm.value)" #formDir="ngForm" novalidate style="padding:20px;">
+
+    <div class="mg-top form-group row">
+      <label for="email" class="col-3 col-sm-3 col-form-label">Email</label>
+      <div class="col-9 col-sm-9">
+        <input type="email" nbInput fullWidth id="email" placeholder="email" formControlName="email">
+        <span class="text-danger" *ngIf="authForm.hasError('required', ['email']) && formDir.submitted">
+          Please enter a valid email.
+        </span>
+      </div>
+    </div>
+
+    <div class="mg-top form-group row">
+      <label for="password" class="col-3 col-sm-3 col-form-label"> Password</label>
+      <div class="col-9 col-sm-9">
+        <input type="password" nbInput fullWidth id="password" placeholder="password" formControlName="password">
+        <span class="text-danger" *ngIf="authForm.hasError('required', ['password']) && formDir.submitted">
+          Please enter a valid password.
+        </span>
+      </div>
+    </div>
+
+    <div class="mg-top form-group row">
+      <div class="offset-sm-3 col-sm-9">
+        <button type="submit" nbButton status="primary">Sign up</button>
+      </div>
+    </div>
+  </form>
+
+</div>

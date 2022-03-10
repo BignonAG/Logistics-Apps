@@ -1,0 +1,167 @@
+<ng-container *ngIf="order; else emptyOrder">
+  <h5>
+    Order details<br />
+    <span>Reference number: {{order.referenceNumber}}</span>
+  </h5>
+
+
+  <div class="row">
+    <div class="col-sm-12 col-lg-12 col-sm-12">
+      <nb-card accent="primary">
+        <nb-card-body>
+
+          <nb-actions size="small">
+            <nb-action>
+              <a class="text-secondary" nbButton size="small" ghost [routerLink]="['/app/order/'+order.id+'/invoice']">
+                <b><nb-icon icon="clipboard-outline"></nb-icon> Invoice</b>
+              </a>
+            </nb-action>
+            <nb-action link="/app">
+              <a class="text-secondary" nbButton size="small" ghost>
+                <b> <nb-icon icon="undo-outline"></nb-icon> Refund</b>
+              </a>
+            </nb-action>
+            <nb-action link="/app/refund">
+              <a class="text-secondary" nbButton size="small" ghost>
+                <b><nb-icon icon="edit-outline"></nb-icon> Update</b>
+              </a>
+            </nb-action>
+            <nb-action>
+              <a nbButton size="small" ghost class="text-secondary">
+                <b><nb-icon icon="trash-2-outline"></nb-icon> Delete</b>
+              </a>
+            </nb-action>
+          </nb-actions>
+
+        </nb-card-body>
+      </nb-card>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="order">
+    <div class="col-lg-9 col-md-9 col-sm-12">
+
+      <nb-card>
+        <nb-card-header>
+          Order product items
+        </nb-card-header>
+        <nb-card-body>
+          <table class="table table-borderless" *ngIf="orderLineItems">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Variant name</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Variant retail price</th>
+                <th scope="col">Total price</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of orderLineItems; let i = index;">
+                <th scope="row">{{i+1}}</th>
+                <td><a [routerLink]="['/app/variant', item.variant.id ]"><b>{{item.variant.name}}</b></a></td>
+                <td>{{item.quantity}}</td>
+                <td>{{item.variant.retailPrice}} {{order.currency.currencySymbol}}</td>
+                <td>{{item.totalPrice}} {{order.currency.currencySymbol}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </nb-card-body>
+      </nb-card>
+
+      <nb-card>
+        <nb-card-header>
+          Order summary
+        </nb-card-header>
+        <nb-card-body>
+          <table class="table table-borderless table-sm" *ngIf="orderLineItems">
+            <tbody>
+              <tr>
+                <td><b>Grand Total: </b></td>
+                <td>{{orderGrandTotal}} {{order.currency.currencySymbol}}</td>
+              </tr>
+              <tr>
+                <td><b>Shipping Charge: </b></td>
+                <td>{{shippingCharge}} {{order.currency.currencySymbol}}</td>
+              </tr>
+              <tr>
+                <td><b>Total Tax: </b></td>
+                <td>{{totalTax}} {{order.currency.currencySymbol}}</td>
+              </tr>
+              <tr>
+                <td><b>Total:</b> </td>
+                <td><b>{{total}} {{order.currency.currencySymbol}}</b></td>
+              </tr>
+            </tbody>
+          </table>
+        </nb-card-body>
+      </nb-card>
+
+      <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-12">
+          <nb-card>
+            <nb-card-header>
+              Shipping information
+            </nb-card-header>
+            <nb-card-body>
+              <div>
+                <a [routerLink]="['/app/customer', order.customer.id ]">
+                  <b>{{order.customer.contact.firstName}} {{order.customer.contact.lastName}}</b>
+                </a>
+              </div>
+              <div>{{order.shippingAddress.address1}}</div>
+              <div>{{order.shippingAddress.address2}}</div>
+              <div>{{order.shippingAddress.province}}</div>
+              <div>{{order.shippingAddress.zip}} {{order.shippingAddress.country}}</div>
+            </nb-card-body>
+          </nb-card>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12">
+          <nb-card>
+            <nb-card-header>
+              Billing information
+            </nb-card-header>
+            <nb-card-body>
+              <div><b>{{order.payementStatus.name}}</b></div>
+              <div>{{order.billingAddress.address1}}</div>
+              <div>{{order.billingAddress.address2}}</div>
+              <div>{{order.billingAddress.province}}</div>
+              <div>{{order.billingAddress.zip}} {{order.billingAddress.country}}</div>
+            </nb-card-body>
+          </nb-card>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-3 col-md- col-sm-12">
+      <nb-card>
+        <nb-card-header>
+          Order fulfillment status
+        </nb-card-header>
+        <nb-card-body>
+          <nb-stepper orientation="vertical" disableStepNavigation>
+            <nb-step label="Order placed"></nb-step>
+            <nb-step label="In Process"></nb-step>
+            <nb-step label="Fulfillment"></nb-step>
+            <nb-step label="Packed"></nb-step>
+            <nb-step label="Shipped"></nb-step>
+            <nb-step label="Delivered"></nb-step>
+          </nb-stepper>
+        </nb-card-body>
+      </nb-card>
+      <nb-card *ngIf="order.shippingMethod">
+        <nb-card-header>
+          Delivery info
+        </nb-card-header>
+        <nb-card-body>
+          <div class="text-center">
+            <nb-icon icon="car-outline"></nb-icon>
+            <div><b>{{order.shippingMethod.name}}</b></div>
+            <div *ngIf="order.shippingMethod.carrierService"><b>{{order.shippingMethod.carrierService.name}}</b></div>
+          </div>
+        </nb-card-body>
+      </nb-card>
+    </div>
+  </div>
+
+</ng-container>

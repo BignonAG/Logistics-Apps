@@ -1,0 +1,102 @@
+<nb-card [nbSpinner]="cardLoading"
+         nbSpinnerStatus="danger"
+         nbSpinnerSize="large"
+         nbSpinnerMessage="">
+  <nb-card-header>
+    {{formTitle}}
+  </nb-card-header>
+
+  <nb-card-body>
+    <form [formGroup]="refundForm" (ngSubmit)="upsert(refundForm.value)" #formDir="ngForm" novalidate style="padding:20px;">
+
+      <!--Order product variant item-->
+      <div class="mg-top form-group row" style="margin-top:25px;">
+        <label for="order" class="col-3 col-sm-3 col-form-label">Order products to refund</label>
+        <div class="col-9 col-sm-9">
+          <a size="tiny" nbButton status="basic" (click)="openDialog()" style="margin-top:8px;">
+            <nb-icon icon="plus"></nb-icon> selected order item
+          </a>
+          <div class="text-danger" *ngIf="orderLineItemSelectErrorMessage">
+            {{orderLineItemSelectErrorMessage}}
+          </div>
+          <table class="table table-borderless table-md" style="margin-top:20px;"
+                 *ngIf="checkedOrderItems.length > 0">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">Product item name</th>
+                <th scope="col">Price</th>
+                <th></th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Total price</th>
+                <th></th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <ng-container *ngFor="let order of checkedOrderItems">
+                <ng-container *ngFor="let item of order.orderLineItems">
+                  <tr *ngIf="item.checked">
+                    <td><a href="#"><b>{{item.variant.name}}</b></a></td>
+                    <td><span><b>{{item.variant.retailPrice}} €</b></span></td>
+                    <td>x</td>
+                    <td><b>{{item.quantity}} </b></td>
+                    <td><span><b>{{item.totalPrice}} €</b></span></td>
+                    <td>
+                      <a size="tiny" nbButton ghost status="danger">
+                        <nb-icon icon="trash-2" (click)="remove(item)"></nb-icon>
+                      </a>
+                    </td>
+                  </tr>
+                </ng-container>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Total price -->
+      <div class="mg-top form-group row">
+        <label for="totalPrice" class="col-3 col-sm-3 col-form-label">Refund total price</label>
+        <div class="col-9 col-sm-9">
+          <input type="text" nbInput fullWidth id="totalPrice" formControlName="totalPrice" readonly="readonly"
+                 value="{{totalPrice}} {{currencySymbol}}">
+        </div>
+      </div>
+
+      <!--Status -->
+      <ng-container formGroupName="status">
+        <div class="mg-top form-group row">
+          <label for="status" class="col-3 col-sm-3 col-form-label">Status</label>
+          <div class="col-9 col-sm-9">
+            <nb-select id="status" placeholder="-- Select a status --" formControlName="id" style="width:100%"
+                       selected="{{selectedStatusId}}">
+              <nb-option *ngFor="let statusItem of status" value="{{statusItem.id}}">
+                {{statusItem.name}}
+              </nb-option>
+            </nb-select>
+            <div class="text-danger" *ngIf="formDir.submitted && formSecondGroupLevelHasError('status','id', 'required')">
+              Please select a status.
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+      <div class="mg-top form-group row">
+        <label for="active" class="col-3 col-sm-3 col-form-label"></label>
+        <div class="col-9 col-sm-9  float-right">
+          <nb-checkbox formControlName="isActive">Turn refund status to active </nb-checkbox>
+        </div>
+      </div>
+
+      <p class="text-danger" *ngIf="errorMessage">{{errorMessage}}</p>
+
+      <div class="mg-top form-group row">
+        <div class="offset-sm-3 col-sm-9">
+          <button type="submit" nbButton status="primary" [nbSpinner]="loading" nbSpinnerStatus="control">{{txtBtnSubmit}}</button>
+        </div>
+      </div>
+
+    </form>
+
+  </nb-card-body>
+</nb-card>

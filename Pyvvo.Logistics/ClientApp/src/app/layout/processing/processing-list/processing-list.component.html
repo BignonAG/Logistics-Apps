@@ -1,0 +1,73 @@
+<ng-container *ngIf="processings">
+
+  <div class="container-fluid">
+    <nb-card [nbSpinner]="loading" nbSpinnerStatus="primary" nbSpinnerSize="large" nbSpinnerMessage="">
+      <!--*** row ***-->
+      <nb-card-header class="row">
+        <h5 class="col-lg-10 col-md-10 col-sm-12">Processings</h5>
+        <div class="col-lg-2 col-md-2 col-sm-12">
+          <a class="float-right" [routerLink]="['/app/processing/create']" nbButton status="primary" size="small">
+            <nb-icon icon="plus"></nb-icon>
+            Create new processing
+          </a>
+        </div>
+      </nb-card-header>
+      <!--*** row ***-->
+
+      <div class="row">
+        <div class="col-12">
+
+          <nb-card-body>
+            <p class="text-success" *ngIf="successMessage">{{successMessage}}</p>
+            <p class="text-danger" *ngIf="errorMessage">{{errorMessage}}</p>
+            <table class="table">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">Reference number</th>
+                  <th scope="col">Order</th>
+                  <th scope="col">Order total price</th>
+                  <th scope="col">Total order item</th>
+                  <th scope="col">Date</th>
+                  <th scope="col">Total order item price</th>
+                  <th scope="col">Agent</th>
+                  <th scope="col">Status</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody *ngIf="processings">
+                <tr *ngFor="let processing of processings">
+                  <td><a [routerLink]="['/app/processing', processing.id]"><b>{{processing.referenceNumber}}</b></a></td>
+                  <td>
+                    <a [routerLink]="['/app/order', processing.order.id]">
+                      <b>{{processing.order.referenceNumber}}</b>
+                    </a>
+                  </td>
+                  <td>
+                    <b>{{processing.order.totalPrice}} {{processing.order.currency.currencySymbol}}</b>
+                  </td>
+                  <td>{{processing.processingLineItems.length}}</td>
+                  <td>{{processing.createdOn}}</td>
+                  <td><b>{{processing.totalPrice}} {{processing.order.currency.currencySymbol}}</b></td>
+                  <td><span class="badge badge-primary">{{processing.status.name}}</span></td>
+                  <td>
+                    <a [routerLink]="['/app/processing/update',processing.id]" nbButton ghost status="warning">
+                      <nb-icon icon="edit"></nb-icon>
+                    </a>
+                    <button nbButton ghost status="danger" (click)="delete(processing.id)">
+                      <nb-icon icon="trash-2"></nb-icon>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+
+            </table>
+
+            <p *ngIf="message">{{message}}</p>
+
+          </nb-card-body>
+
+        </div>
+      </div>
+    </nb-card>
+  </div>
+</ng-container>

@@ -1,0 +1,396 @@
+<nb-card [nbSpinner]="cardLoading"
+         nbSpinnerStatus="danger"
+         nbSpinnerSize="large"
+         nbSpinnerMessage="">
+  <nb-card-header>
+    {{formTitle}}
+  </nb-card-header>
+
+  <nb-card-body>
+    <form style="padding:20px;" [formGroup]="orderForm" (ngSubmit)="upsert(orderForm.value)" #formDir="ngForm" novalidate>
+
+      <!--Customer-->
+      <ng-container formGroupName="customer">
+        <div class="mg-top form-group row">
+          <label for="order" class="col-3 col-sm-3 col-form-label">Customer</label>
+          <div class="col-9 col-sm-9">
+            <nb-select id="order" placeholder="-- Select a customer --" formControlName="id" style="width:100%" selected="{{selectedCustomerId}}">
+              <nb-option *ngFor="let customerItem of customers" value="{{customerItem.id}}">
+                {{customerItem.contact.firstName}} {{customerItem.contact.lastName}}
+              </nb-option>
+            </nb-select>
+            <div class="text-danger" *ngIf="formDir.submitted && formSecondGroupLevelHasError('customer','id', 'required')">
+              Please select a customer.
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+      <!--Order product variant item-->
+      <div class="mg-top form-group row" style="margin-top:25px;">
+        <label for="order" class="col-3 col-sm-3 col-form-label">Order product items</label>
+        <div class="col-9 col-sm-9">
+          <button size="tiny" nbButton status="basic" (click)="openDialog()">
+            <nb-icon icon="plus"></nb-icon> Add a product
+          </button>
+          <div class="text-danger" *ngIf="orderLineItemSelectErrorMessage">
+            {{orderLineItemSelectErrorMessage}}
+          </div>
+          <table class="table table-borderless table-md" *ngIf="selectedProducts.length > 0">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">Product item name</th>
+                <th scope="col">Price</th>
+                <th></th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Total price</th>
+                <th></th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <ng-container *ngFor="let product of selectedProducts">
+                <!--<tr *ngIf="product.checked">
+              <td colspan="5"><a href="#"><b>{{product.name}}</b></a></td>
+            </tr>-->
+                <ng-container *ngFor="let variant of product.variants">
+                  <tr *ngIf="variant.checked">
+                    <td><a href="#"><b>{{variant.name}}</b></a></td>
+                    <td><span><b>{{variant.retailPrice}} €</b></span></td>
+                    <td>X</td>
+                    <td>
+                      <input type="number" nbInput id="qte" fullWidth fieldSize="tiny"
+                             [value]="variant.qte" (change)="onQteChange($event, variant)" min="1">
+                    </td>
+                    <td><span><b>{{variant.totalPrice}} €</b></span></td>
+                    <td>
+                      <button size="tiny" nbButton ghost status="danger">
+                        <nb-icon icon="close-outline" (click)="removeVariant(variant)"></nb-icon>
+                      </button>
+                    </td>
+                  </tr>
+                </ng-container>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!--Subtotal before taxe-->
+      <div class="mg-top form-group row">
+        <label for="subtotalBeforeTax" class="col-3 col-sm-3 col-form-label">Subtotal before taxe</label>
+        <div class="col-9 col-sm-9">
+          <input type="number" nbInput fullWidth id="subtotalBeforeTax" placeholder="0"
+                 [value]="subtotalBeforeTax" formControlName="subtotalBeforeTax">
+        </div>
+      </div>
+
+      <!--taxe information -->
+      <ng-container formGroupName="taxe">
+        <div class="mg-top form-group row">
+          <label for="taxe" class="col-3 col-sm-3 col-form-label">Taxe information</label>
+          <div class="col-9 col-sm-9">
+            <nb-select id="taxe" #taxeSelected placeholder="-- Select a taxe information --" formControlName="id"
+                       style="width:100%" aria-describedby="newStatus" [selected]="selectedTaxeId" *ngFor="let taxeItem of taxes" 
+                       (selectedChange)="onTaxeChange($event, taxeItem.rate)">
+              <nb-option value="0">
+                -- Empty --
+              </nb-option>
+              <nb-option [value]="taxeItem.id">
+                {{taxeItem.name}} [ {{taxeItem.rate}} ]
+              </nb-option>
+            </nb-select>
+          </div>
+        </div>
+      </ng-container>
+
+      <!--total tax -->
+      <div class="mg-top form-group row">
+        <label for="totalTax" class="col-3 col-sm-3 col-form-label">Total tax</label>
+        <div class="col-9 col-sm-9">
+          <input type="number" nbInput fullWidth id="totalTax" placeholder="0" formControlName="totalTax" [value]="totalTax">
+        </div>
+      </div>
+
+      <!--total price -->
+      <div class="mg-top form-group row">
+        <label for="totalPrice" class="col-3 col-sm-3 col-form-label">Total price</label>
+        <div class="col-9 col-sm-9">
+          <input type="number" nbInput fullWidth id="totalPrice" placeholder="0" formControlName="totalPrice" [value]="totalPrice">
+        </div>
+      </div>
+
+      <!-- Paid on-->
+      <div class="row">
+        <div class="col-6 col-sm-12">
+          <div class="mg-top form-group row">
+            <label for="paidOn" class="col-3 col-sm-3 col-form-label">Paid on</label>
+            <div class="col-9 col-sm-9">
+              <input nbInput id="paidOn" placeholder="Pick Date" autocomplete="off" [nbDatepicker]="paidOn" formControlName="paidOnValue">
+              <nb-datepicker #paidOn></nb-datepicker>
+            </div>
+          </div>
+        </div>
+
+        <!--Cancel on -->
+        <div class="col-6 col-sm-12">
+          <div class="mg-top form-group row">
+            <label for="cancelOn" class="col-3 col-sm-3 col-form-label">Cancel on</label>
+            <div class="col-9 col-sm-9">
+              <input nbInput id="cancelOn" placeholder="Pick Date" autocomplete="off" [nbDatepicker]="cancelOn" formControlName="cancelOnValue">
+              <nb-datepicker #cancelOn></nb-datepicker>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Reference Number-->
+      <!--<div class="mg-top form-group row">
+    <label for="referenceNumber" class="col-3 col-sm-3 col-form-label">Reference number</label>
+    <div class="col-9 col-sm-9">
+      <input type="text" nbInput fullWidth id="referenceNumber" placeholder="Reference number" formControlName="referenceNumber">
+    </div>
+  </div>-->
+      <!-- Paiement status-->
+      <ng-container formGroupName="payementStatus">
+        <div class="mg-top form-group row">
+          <label for="payementStatus" class="col-3 col-sm-3 col-form-label">Paiement status</label>
+          <div class="col-9 col-sm-9">
+            <nb-select id="payementStatus" placeholder="-- Select a paiement status --" formControlName="id" style="width:100%" selected="{{selectedPaiementStatusId}}">
+              <nb-option *ngFor="let payement of paiementStatus" value="{{payement.id}}">
+                {{payement.name}}
+              </nb-option>
+            </nb-select>
+            <div class="text-danger" *ngIf="formDir.submitted && formSecondGroupLevelHasError('payementStatus','id', 'required')">
+              Please select a status.
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+      <!-- discount type-->
+      <div class="mg-top form-group row">
+        <label for="discountType" class="col-3 col-sm-3 col-form-label">Discount Type</label>
+        <div class="col-9 col-sm-9">
+          <input type="text" nbInput fullWidth id="discountType" placeholder="Discount type" formControlName="discountType">
+        </div>
+      </div>
+
+      <!--discount value-->
+      <div class="mg-top form-group row">
+        <label for="dsicountValue" class="col-3 col-sm-3 col-form-label">Discount Value</label>
+        <div class="col-9 col-sm-9">
+          <input type="number" nbInput fullWidth id="dsicountValue" placeholder="0" formControlName="dsicountValue" value="0">
+        </div>
+      </div>
+
+
+      <!--Status -->
+      <ng-container formGroupName="status">
+        <div class="mg-top form-group row">
+          <label for="status" class="col-3 col-sm-3 col-form-label">Status</label>
+          <div class="col-9 col-sm-9">
+            <nb-select id="status" placeholder="-- Select a status --" formControlName="id" style="width:100%" selected="{{selectedStatusId}}">
+              <nb-option *ngFor="let statusItem of status" value="{{statusItem.id}}">
+                {{statusItem.name}}
+              </nb-option>
+            </nb-select>
+            <div class="text-danger" *ngIf="formDir.submitted && formSecondGroupLevelHasError('status','id', 'required')">
+              Please select a status.
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+      <!--FulFillmentStatus Status -->
+      <ng-container formGroupName="fulfillmentStatus">
+        <div class="mg-top form-group row">
+          <label for="fulFillmentStatus" class="col-3 col-sm-3 col-form-label">FulFillmentStatus Status</label>
+          <div class="col-9 col-sm-9">
+            <nb-select id="fulFillmentStatus" placeholder="-- Select a fulFillmentStatus status --" formControlName="id" style="width:100%"
+                       selected="{{selectedFulFillmentStatusId}}">
+              <nb-option *ngFor="let statusItem of fulFillmentStatus" value="{{statusItem.id}}">
+                {{statusItem.name}}
+              </nb-option>
+            </nb-select>
+            <div class="text-danger" *ngIf="formDir.submitted && formSecondGroupLevelHasError('fulfillmentStatus','id', 'required')">
+              Please select a fulffilment status.
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+      <!--currency -->
+      <ng-container formGroupName="currency">
+        <div class="mg-top form-group row">
+          <label for="currency" class="col-3 col-sm-3 col-form-label">Currency information</label>
+          <div class="col-9 col-sm-9">
+            <nb-select id="currency" placeholder="-- Select a currency --" formControlName="id" style="width:100%"
+                       selected="{{selectCurrencyId}}">
+              <nb-option *ngFor="let currencyItem of currencies" value="{{currencyItem.id}}">
+                {{currencyItem.name}} ( {{currencyItem.currencySymbol}} )
+              </nb-option>
+            </nb-select>
+            <div class="text-danger" *ngIf="formDir.submitted && formSecondGroupLevelHasError('currency','id', 'required')">
+              Please select a currency.
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+      <!--warehouse -->
+      <ng-container formGroupName="warehouse">
+        <div class="mg-top form-group row">
+          <label for="warehouse" class="col-3 col-sm-3 col-form-label">Warehouse</label>
+          <div class="col-9 col-sm-9">
+            <nb-select id="warehouse" placeholder="-- Select a warehouse --" formControlName="id" style="width:100%"
+                       selected="{{selectedWarehouseId}}">
+              <nb-option *ngFor="let warehouseItem of warehouses" value="{{warehouseItem.id}}">
+                {{warehouseItem.contact.firstName}} {{warehouseItem.contact.lastName}}
+              </nb-option>
+            </nb-select>
+            <div class="text-danger" *ngIf="formDir.submitted && formSecondGroupLevelHasError('warehouse','id', 'required')">
+              Please select a warehouse .
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+      <!--shipping methode -->
+      <ng-container formGroupName="shippingMethod">
+        <div class="mg-top form-group row">
+          <label for="shippingMethod" class="col-3 col-sm-3 col-form-label">Shipping Method</label>
+          <div class="col-9 col-sm-9">
+            <nb-select id="shippingMethod" placeholder="-- Select a shipping method --" formControlName="id" style="width:100%"
+                       [selected]="selectIdShippingMId">
+              <nb-option value="0">
+                -- Empty --
+              </nb-option>
+              <nb-option *ngFor="let shpippingMethodItem of shippingMethods" value="{{shpippingMethodItem.id}}">
+                {{shpippingMethodItem.name}}
+              </nb-option>
+            </nb-select>
+          </div>
+        </div>
+      </ng-container>
+
+      <div class="mg-top form-group row">
+        <label for="active" class="col-3 col-sm-3 col-form-label"></label>
+        <div class="col-9 col-sm-9  float-right">
+          <nb-checkbox formControlName="isActive">Turn order status to active </nb-checkbox>
+        </div>
+      </div>
+
+
+      <!------------------------------Shipping Address fields------------------------------->
+      <ng-container formGroupName="shippingAddress">
+
+        <h6 class="mg-top50">Customer shipping address informations</h6>
+
+        <div class="mg-top form-group row">
+          <label for="address1S" class="col-3 col-sm-3 col-form-label">Address line 1</label>
+          <div class="col-9 col-sm-9">
+            <input type="text" nbInput fullWidth id="address1S" placeholder="Number, street, avenue" formControlName="address1">
+            <div class="text-danger" *ngIf="formDir.submitted && formSecondGroupLevelHasError('shippingAddress','address1', 'required')">
+              Please enter your address.
+            </div>
+          </div>
+        </div>
+
+        <div class="mg-top form-group row">
+          <label for="address2S" class="col-3 col-sm-3 col-form-label">Address line 2</label>
+          <div class="col-9 col-sm-9">
+            <input type="text" nbInput fullWidth id="address2S" placeholder="N° App, N°Building, etc.." formControlName="address2">
+          </div>
+        </div>
+
+        <div class="mg-top form-group row">
+          <label for="provinceS" class="col-3 col-sm-3 col-form-label">Province</label>
+          <div class="col-9 col-sm-9">
+            <input type="text" nbInput fullWidth id="provinceS" placeholder="Province" formControlName="province">
+          </div>
+        </div>
+
+        <div class="mg-top form-group row">
+          <label for="zipS" class="col-3 col-sm-3 col-form-label">Zip code</label>
+          <div class="col-9 col-sm-9">
+            <input type="text" nbInput fullWidth id="zipS" placeholder="Zip code" formControlName="zip">
+            <div class="text-danger" *ngIf="formDir.submitted && formSecondGroupLevelHasError('shippingAddress','zip', 'required')">
+              Please enter your zip code.
+            </div>
+          </div>
+        </div>
+
+        <div class="mg-top form-group row">
+          <label for="countryS" class="col-3 col-sm-3 col-form-label">Country</label>
+          <div class="col-9 col-sm-9">
+            <input type="text" nbInput fullWidth id="countryS" placeholder="Country" formControlName="country">
+            <div class="text-danger" *ngIf="formDir.submitted && formSecondGroupLevelHasError('shippingAddress','country', 'required')">
+              Please enter your country.
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+      <!------------------------------Billing Address fields------------------------------->
+      <ng-container formGroupName="billingAddress">
+
+        <h6 class="mg-top50">Customer billing address information</h6>
+
+        <div class="mg-top form-group row">
+          <div class="col-9 col-sm-9">
+            <nb-toggle [(checked)]="sameAddressChecked" labelPosition="start">The billing address is the same as the shipping address.</nb-toggle>
+          </div>
+        </div>
+
+        <div [hidden]="sameAddressChecked">
+
+          <div class="mg-top form-group row">
+            <label for="address1" class="col-3 col-sm-3 col-form-label">Address line 1</label>
+            <div class="col-9 col-sm-9">
+              <input type="text" nbInput fullWidth id="address1" placeholder="Number, street, avenue" formControlName="address1">
+            </div>
+          </div>
+
+          <div class="mg-top form-group row">
+            <label for="address2" class="col-3 col-sm-3 col-form-label">Address line 2</label>
+            <div class="col-9 col-sm-9">
+              <input type="text" nbInput fullWidth id="address2" placeholder="N° App, N°Building, etc.." formControlName="address2">
+            </div>
+          </div>
+
+          <div class="mg-top form-group row">
+            <label for="province" class="col-3 col-sm-3 col-form-label">Province</label>
+            <div class="col-9 col-sm-9">
+              <input type="text" nbInput fullWidth id="province" placeholder="Province" formControlName="province">
+            </div>
+          </div>
+
+          <div class="mg-top form-group row">
+            <label for="zip" class="col-3 col-sm-3 col-form-label">Zip code</label>
+            <div class="col-9 col-sm-9">
+              <input type="text" nbInput fullWidth id="zip" placeholder="Zip code" formControlName="zip">
+            </div>
+          </div>
+
+          <div class="mg-top form-group row">
+            <label for="country" class="col-3 col-sm-3 col-form-label">Country</label>
+            <div class="col-9 col-sm-9">
+              <input type="text" nbInput fullWidth id="country" placeholder="Country" formControlName="country">
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+      <p class="text-danger" *ngIf="errorMessage">{{errorMessage}}</p>
+
+      <div class="mg-top form-group row">
+        <div class="offset-sm-3 col-sm-9">
+          <button type="submit" nbButton status="primary" [nbSpinner]="loading" nbSpinnerStatus="control">{{txtBtnSubmit}}</button>
+        </div>
+      </div>
+
+    </form>
+
+  </nb-card-body>
+</nb-card>

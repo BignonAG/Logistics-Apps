@@ -1,0 +1,78 @@
+<ng-container *ngIf="products">
+  
+  
+  <div class="container-fluid">
+    
+    
+    <!--*** row ***-->
+    
+    <div class="row page-title">
+      <h5 class="col-lg-10 col-md-10 col-sm-12">Variants</h5>
+      <!--<div class="col-lg-6 col-md-6 col-sm-12">
+        <a class="float-right" [routerLink]="['/app/product/create']" nbButton status="primary" size="small">
+          <nb-icon icon="plus"></nb-icon>
+          Add new variant
+        </a>
+      </div>-->
+    </div>
+    
+    <!--*** row ***-->
+    <nb-card [nbSpinner]="loading" nbSpinnerStatus="control" nbSpinnerSize="large" nbSpinnerMessage="" class="row">
+      <nb-card-body>
+        <p class="text-success" *ngIf="successMessage">{{successMessage}}</p>
+        <p class="text-danger" *ngIf="errorMessage">{{errorMessage}}</p>
+          <table class="table">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">Product variant</th>
+                <th scope="col">Category</th>
+                <th scope="col">Created on</th>
+                <th scope="col">Price</th>
+                <th scope="col"></th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody *ngIf="products">
+              <ng-container *ngFor="let product of products;  let i = index;">
+                <tr *ngFor="let variant of product.variants">
+                  <td>
+                    <img *ngIf="product.image != null && product.image.pathUrl; else noPathurl"
+                    [src]="product.image.pathUrl" alt="contact-img" title="contact-img" class="rounded mr-3" height="68" width="68" />
+                    <ng-template #noPathurl>
+                      <img src="assets/product-6.jpg" alt="contact-img" title="contact-img" class="rounded mr-3" height="68" width="68" />
+                    </ng-template>
+                    <p class="m-0 d-inline-block align-middle font-16">
+                      <a [routerLink]="['/app/product', product.id]" class="text-body">{{variant.name}}</a>
+                      <br />
+                      <span class="text-secondary">{{product.name}}</span>
+                    </p>
+                  </td>
+                  <td>
+                    {{product.productCategory.name}}
+                  </td>
+                  <td>
+                    {{product.createdOn}}
+                  </td>
+                  <td>
+                    ${{variant.retailPrice}}
+                  </td>
+                  <td>
+                    <span class="badge badge-success">{{product.status.name}}</span>
+                  </td>
+                  <td>
+                    <a [routerLink]="['/app/variant/update',variant.id]" nbButton ghost status="warning"><nb-icon icon="edit"></nb-icon></a>
+                    <button nbButton ghost status="danger" (click)="delete(variant.id)">
+                      <nb-icon icon="trash-2"></nb-icon>
+                    </button>
+                  </td>
+                </tr>
+              </ng-container>
+              
+            </tbody>
+            
+          </table>
+        <p *ngIf="message">{{message}}</p>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</ng-container>

@@ -1,0 +1,62 @@
+  <ng-container *ngIf="orders">
+
+    <div class="container-fluid">
+      
+        <!--*** row ***-->
+        <div class="row page-title">
+          <div class="col-lg-10 col-md-10 col-sm-12">
+            <h5>Orders</h5>
+          </div>
+          <div class="col-lg-2 col-md-2 col-sm-12">
+            <a [routerLink]="['/app/order/create']" nbButton ghost status="primary" class="float-right">
+              <nb-icon icon="plus"></nb-icon>
+            </a>
+          </div>
+        </div>
+        <!--*** row ***-->
+        <nb-card [nbSpinner]="loading" nbSpinnerStatus="control" nbSpinnerSize="large" nbSpinnerMessage="" class="row">
+            <nb-card-body class="full-width">
+              <p class="text-success" *ngIf="successMessage">{{successMessage}}</p>
+              <p class="text-danger" *ngIf="errorMessage">{{errorMessage}}</p>
+              <table class="table">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col"># </th>
+                    <th scope="col">Customer</th>
+                    <th scope="col">Created on</th>
+                    <th scope="col">Total product item</th>
+                    <th scope="col">Total price</th>
+                    <th scope="col">Payement satus</th>
+                    <th scope="col">FulFillment satus</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody *ngIf="orders">
+                  <tr *ngFor="let order of orders">
+                    <td><a [routerLink]="['/app/order', order.id]"><b>{{order.referenceNumber}}</b></a></td>
+                    <td>
+                      <a [routerLink]="['/app/customer', order.customer.id]">
+                        <b>{{order.customer.contact.firstName}} {{order.customer.contact.lastName}}</b>
+                      </a>
+                    </td>
+                    <td>{{order.createdOnLocalTime}}</td>
+                    <td>{{order.orderLineItems.length}}</td>
+                    <td>{{order.totalPrice}} {{order.currency.currencySymbol}}</td>
+                    <td><span class="badge badge-primary">{{order.payementStatus.name}}</span></td>
+                    <td><span class="badge badge-success">{{order.fulfillmentStatus.name}}</span></td>
+                    <td>
+                      <a [routerLink]="['/app/order/update',order.id]" nbButton ghost status="warning"><nb-icon icon="edit"></nb-icon></a>
+                      <button nbButton ghost status="danger" (click)="deleteOrder(order.id)"><nb-icon icon="trash-2"></nb-icon></button>
+                    </td>
+                  </tr>
+                </tbody>
+
+              </table>
+
+              <p *ngIf="message">{{message}}</p>
+
+            </nb-card-body>
+      </nb-card>
+    </div>
+  </ng-container>
+

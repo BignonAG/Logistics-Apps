@@ -1,0 +1,132 @@
+<ng-container *ngIf="warehouse">
+
+
+ 
+  <div class="container">
+
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12">
+        <h5>
+          Warehouse detail
+        </h5>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-lg-8 col-md-8 col-sm-12">
+
+        <nb-card>
+          <nb-card-header>
+            <span style="font-size:14px;"> Address Information</span>
+          </nb-card-header>
+          <nb-card-body>
+            <table class="table table-borderless table-sm">
+
+              <tbody>
+                <tr>
+                  <td><b>Address 1 :  </b></td>
+                  <td>{{warehouse.address.address1}}</td>
+                </tr>
+                <tr>
+                  <td><b>Address 2 : </b></td>
+                  <td>{{warehouse.address.address2}}</td>
+                </tr>
+                <tr>
+                  <td><b>Province : </b></td>
+                  <td>{{warehouse.address.province}}</td>
+                </tr>
+                <tr>
+                  <td><b>Zip : </b> </td>
+                  <td>{{warehouse.address.zip}}</td>
+                </tr>
+                <tr>
+                  <td><b>Country : </b> </td>
+                  <td>{{warehouse.address.country}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </nb-card-body>
+        </nb-card>
+
+        <nb-card>
+          <nb-card-header>
+            <span style="font-size:14px;">Notes</span>
+          </nb-card-header>
+          <nb-card-body>
+            <table class="table table-borderless table-sm">
+              <thead>
+                <tr>
+                  <th scope="col">Owner</th>
+                  <th scope="col">Content</th>
+                  <th scope="col">Updated on</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of warehouse.note; let i = index;">
+                  <td>{{item.createdBy}}</td>
+                  <td>{{item.content}}</td>
+                  <td>{{item.updatedOn}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </nb-card-body>
+        </nb-card>
+
+      </div>
+
+
+      <div class="col-lg-4 col-md-4 col-sm-12">
+
+        <nb-card>
+          <nb-card-header>
+            <span style="font-size:14px;"> Contact Information</span>
+          </nb-card-header>
+          <nb-card-body>
+            <table class="table table-borderless table-sm">
+              <tbody>
+                <tr>
+                  <td><b>First Name :  </b></td>
+                  <td>{{warehouse.contact.firstName}}</td>
+                </tr>
+                <tr>
+                  <td><b>Image :  </b></td>
+                  <td>{{warehouse.contact.image}}</td>
+                </tr>
+                <tr>
+                  <td><b>Last Name : </b></td>
+                  <td>{{warehouse.contact.lastName}}</td>
+                </tr>
+                <tr>
+                  <td><b>Email : </b></td>
+                  <td>{{warehouse.contact.email}}</td>
+                </tr>
+                <tr>
+                  <td><b>Active ? : </b> </td>
+                  <td>{{warehouse.contact.isActive}}</td>
+                </tr>
+                <tr>
+                  <td><b>Status : </b> </td>
+                  <td>{{warehouse.contact.status}}</td>
+                </tr>
+                <tr>
+                  <td><b>Website : </b> </td>
+                  <td>{{warehouse.contact.website}}</td>
+                </tr>
+                <tr>
+                  <td><b>TimeZone : </b> </td>
+                  <td>{{warehouse.contact.timeZone}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </nb-card-body>
+        </nb-card>
+
+      </div>
+
+    </div>
+
+    </div>
+
+
+</ng-container>

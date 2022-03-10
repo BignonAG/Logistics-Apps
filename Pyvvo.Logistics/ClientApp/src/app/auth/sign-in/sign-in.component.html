@@ -1,0 +1,55 @@
+<nb-layout>
+
+  <nb-layout-column>
+
+    <nb-card>
+      <nb-card-header class="text-center">Login to your account</nb-card-header>
+      <nb-card-body>
+        <div class="container">
+          <h1 class="text-center"><img src="assets/logo/pyvvo_logo.png" alt="Pyvvo logo" width="100"/></h1>
+          <p class="text-danger text-center" *ngIf="errorMessage">{{errorMessage}}</p>
+          <p class="text-success text-center" *ngIf="successMessage">{{successMessage}}</p>
+          <form [formGroup]="authForm" (ngSubmit)="signIn(authForm.value)" #formDir="ngForm" novalidate style="padding:20px;">
+
+            <div class="mg-top form-group row">
+              <label for="email" class="col-3 col-sm-3 col-form-label"> Email</label>
+              <div class="col-9 col-sm-9">
+                <input type="email" nbInput fullWidth id="email" placeholder="email" formControlName="email">
+                <span class="text-danger" *ngIf="authForm.hasError('required', ['email']) && formDir.submitted">
+                  Please enter a valid email.
+                </span>
+              </div>
+            </div>
+
+            <div class="mg-top form-group row">
+              <label for="password" class="col-3 col-sm-3 col-form-label"> Password</label>
+              <div class="col-9 col-sm-9">
+                <input type="password" nbInput fullWidth id="password" placeholder="password" formControlName="password">
+                <span class="text-danger" *ngIf="authForm.hasError('required', ['password']) && formDir.submitted">
+                  Please enter a valid password.
+                </span>
+              </div>
+            </div>
+
+            <div class="mg-top form-group row">
+              <div class="offset-sm-3 col-sm-9">
+                <button type="submit"  [nbSpinner]="loading"  nbButton status="primary">Sign in</button>
+              </div>
+            </div>
+
+            <div class="mg-top form-group row">
+              <div class="offset-sm-3 col-sm-9">
+                <a [routerLink]="['/auth/sign-up']" status="primary">Sign Up</a>
+              </div>
+            </div>
+          </form>
+
+        </div>
+      </nb-card-body>
+    </nb-card>
+
+  </nb-layout-column>
+
+</nb-layout>
+
+

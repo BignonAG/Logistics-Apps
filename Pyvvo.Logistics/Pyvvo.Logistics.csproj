@@ -1,0 +1,181 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <LangVersion>8.0</LangVersion>
+    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+    <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
+    <IsPackable>false</IsPackable>
+    <SpaRoot>ClientApp\</SpaRoot>
+    <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
+
+    <!-- Set this to true if you enable server-side prerendering -->
+    <BuildServerSideRenderer>false</BuildServerSideRenderer>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.5" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Compile Remove="Core\**" />
+    <Content Remove="$(SpaRoot)**" />
+    <Content Remove="Core\**" />
+    <EmbeddedResource Remove="Core\**" />
+    <None Remove="$(SpaRoot)**" />
+    <None Remove="Core\**" />
+    <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="ClientApp\src\app\common\form-error-handler.ts" />
+    <None Remove="ClientApp\src\app\service\Model\account-login.ts" />
+    <None Remove="ClientApp\src\app\service\Model\Address.ts" />
+    <None Remove="ClientApp\src\app\service\Model\carrier-service.ts" />
+    <None Remove="ClientApp\src\app\service\Model\Company.ts" />
+    <None Remove="ClientApp\src\app\service\Model\contact.ts" />
+    <None Remove="ClientApp\src\app\service\Model\currency.ts" />
+    <None Remove="ClientApp\src\app\service\Model\customer.ts" />
+    <None Remove="ClientApp\src\app\service\Model\image.ts" />
+    <None Remove="ClientApp\src\app\service\Model\invoice-line-item.ts" />
+    <None Remove="ClientApp\src\app\service\Model\invoice.ts" />
+    <None Remove="ClientApp\src\app\service\Model\linked-variant.ts" />
+    <None Remove="ClientApp\src\app\service\Model\measurement-unit.ts" />
+    <None Remove="ClientApp\src\app\service\Model\Note.ts" />
+    <None Remove="ClientApp\src\app\service\Model\Option.ts" />
+    <None Remove="ClientApp\src\app\service\Model\order-line-item.ts" />
+    <None Remove="ClientApp\src\app\service\Model\order.ts" />
+    <None Remove="ClientApp\src\app\service\Model\parameter.ts" />
+    <None Remove="ClientApp\src\app\service\Model\payement-term.ts" />
+    <None Remove="ClientApp\src\app\service\Model\processing-line-item.ts" />
+    <None Remove="ClientApp\src\app\service\Model\processing.ts" />
+    <None Remove="ClientApp\src\app\service\Model\product.ts" />
+    <None Remove="ClientApp\src\app\service\Model\ProductCategory.ts" />
+    <None Remove="ClientApp\src\app\service\Model\refund-line-item.ts" />
+    <None Remove="ClientApp\src\app\service\Model\refund.ts" />
+    <None Remove="ClientApp\src\app\service\Model\return-line-item.ts" />
+    <None Remove="ClientApp\src\app\service\Model\return.ts" />
+    <None Remove="ClientApp\src\app\service\Model\role.ts" />
+    <None Remove="ClientApp\src\app\service\Model\shipment-line-item.ts" />
+    <None Remove="ClientApp\src\app\service\Model\shipping-method.ts" />
+    <None Remove="ClientApp\src\app\service\Model\Shipping.ts" />
+    <None Remove="ClientApp\src\app\service\Model\status.ts" />
+    <None Remove="ClientApp\src\app\service\Model\StatusCategory.ts" />
+    <None Remove="ClientApp\src\app\service\Model\stock-level.ts" />
+    <None Remove="ClientApp\src\app\service\Model\supplier.ts" />
+    <None Remove="ClientApp\src\app\service\Model\taxe-line-item.ts" />
+    <None Remove="ClientApp\src\app\service\Model\taxe.ts" />
+    <None Remove="ClientApp\src\app\service\Model\user.ts" />
+    <None Remove="ClientApp\src\app\service\Model\variant.ts" />
+    <None Remove="ClientApp\src\app\service\Model\warehouse.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Pyvvo.Logistics.Core\Pyvvo.Logistics.Core.csproj" />
+    <ProjectReference Include="..\Pyvvo.Logistics.Model\Pyvvo.Logistics.Model.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\common\form-error-handler.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\service\Model\account-login.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\service\Model\Address.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\service\Model\carrier-service.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\service\Model\Company.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\service\Model\contact.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\service\Model\currency.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\service\Model\customer.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\service\Model\payement-term.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\service\Model\processing-line-item.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\service\Model\ProductCategory.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\service\Model\return-line-item.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\service\Model\shipment-line-item.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\service\Model\image.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\service\Model\invoice-line-item.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\service\Model\invoice.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\service\Model\linked-variant.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\service\Model\measurement-unit.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\service\Model\note.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\service\Model\option.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\service\Model\order.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\service\Model\order-line-item.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\service\Model\parameter.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\service\Model\processing.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\service\Model\product.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\service\Model\refund-line-item.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\service\Model\refund.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\service\Model\return.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\service\Model\role.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\service\Model\shipping-method.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\service\Model\shipping.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\service\Model\status.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\service\Model\StatusCategory.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\service\Model\stock-level.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\service\Model\supplier.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\service\Model\taxe-line-item.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\service\Model\taxe.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\service\Model\user.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\service\Model\variant.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\service\Model\warehouse.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ClientApp\src\assets\NewFolder\" />
+  </ItemGroup>
+
+  <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
+    <!-- Ensure Node.js is installed -->
+    <Exec Command="node --version" ContinueOnError="true">
+      <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
+    </Exec>
+    <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE." />
+    <Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..." />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
+  </Target>
+
+  <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
+    <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- --prod" />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build:ssr -- --prod" Condition=" '$(BuildServerSideRenderer)' == 'true' " />
+
+    <!-- Include the newly-built files in the publish output -->
+    <ItemGroup>
+      <DistFiles Include="$(SpaRoot)dist\**; $(SpaRoot)dist-server\**" />
+      <DistFiles Include="$(SpaRoot)node_modules\**" Condition="'$(BuildServerSideRenderer)' == 'true'" />
+      <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+        <RelativePath>%(DistFiles.Identity)</RelativePath>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      </ResolvedFileToPublish>
+    </ItemGroup>
+  </Target>
+
+</Project>

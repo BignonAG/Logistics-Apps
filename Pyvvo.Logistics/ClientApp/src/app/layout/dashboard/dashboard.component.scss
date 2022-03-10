@@ -1,0 +1,37 @@
+@import '../../../themes.scss';
+@import '../../@theme/styles/themes';
+
+@include nb-install-component() {
+  ngx-echarts-pie,
+  ngx-echarts-bar,
+  ngx-echarts-line,
+  ngx-echarts-multiple-xaxis,
+  ngx-echarts-area-stack,
+  ngx-echarts-bar-animation,
+  ngx-echarts-radar {
+    display: block;
+    height: nb-theme(card-height-medium);
+    width: 100%;
+  }
+
+  ::ng-deep .echart {
+    height: 100%;
+    width: 100%;
+  }
+
+  nb-icon.card-icon {
+    font-size: 2.55rem;
+  }
+
+  .card-subheader {
+    font-size: 0.90rem;
+
+    nb-icon {
+      font-size: 1.50rem;
+    }
+  }
+
+  .chart-line2-card-height {
+    min-height: 490px;
+  }
+}

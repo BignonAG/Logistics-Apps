@@ -1,0 +1,268 @@
+<!--<a class="float-right" (click)="openDialog()" nbButton status="primary" size="small">
+  Open
+</a>-->
+
+<nb-card [nbSpinner]="cardLoading"
+         nbSpinnerStatus="danger"
+         nbSpinnerSize="large"
+         nbSpinnerMessage="">
+  <nb-card-header>
+    {{formTitle}}
+  </nb-card-header>
+
+  <nb-card-body>
+    <form style="padding:20px;" [formGroup]="variantForm" (ngSubmit)="upsert(variantForm.value)" #formDir="ngForm" novalidate>
+
+      <!--Variant name-->
+      <div class="mg-top form-group row">
+        <label for="name" class="col-3 col-sm-3 col-form-label">Variant name</label>
+        <div class="col-6 col-sm-6">
+          <input type="text" nbInput fullWidth id="name" placeholder="Name" formControlName="name">
+          <div class="text-danger" *ngIf="formDir.submitted && formHasError('name', 'required')">
+            Variant name is required.
+          </div>
+        </div>
+      </div>
+
+      <!-- Product image -->
+      <div class="mg-top form-group row">
+        <label for="name" class="col-3 col-sm-3 col-form-label">Variant image</label>
+        <div class="col-9 col-sm-9">
+          <div class="row">
+            <div class="col-12">
+              <a class="float-left" (click)="openDialog()" nbButton status="primary" size="tiny" style="margin-top: 6px;">
+                Select variant image
+              </a>
+            </div>
+          </div>
+          <div class="row" style="margin-top:20px;">
+            <div class="col-12">
+              <img *ngIf="imageUrl" [src]="imageUrl" class="img-fluid rounded" alt="Responsive image" width="400">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--Retail price -->
+      <div class="mg-top form-group row">
+        <label for="RetailPrice" class="col-3 col-sm-3 col-form-label">Retail price</label>
+        <div class="col-3 col-sm-3">
+          <input type="number" nbInput fullWidth id="RetailPrice" placeholder="Initial stock level" formControlName="retailPrice">
+          <div class="text-danger" *ngIf="formDir.submitted && formHasError('retailPrice', 'required')">
+            Variant retail price is required.
+          </div>
+        </div>
+      </div>
+
+      <!--Special price -->
+      <div class="mg-top form-group row">
+        <label for="specialPrice" class="col-3 col-sm-3 col-form-label">Special price</label>
+        <div class="col-3 col-sm-3">
+          <input type="number" nbInput fullWidth id="specialPrice" placeholder="Initial stock level" formControlName="specialPrice">
+          <div class="text-danger" *ngIf="formDir.submitted && formHasError('specialPrice', 'required')">
+            Special retail price is required.
+          </div>
+        </div>
+      </div>
+
+
+      <!--Variant type-->
+      <div class="mg-top form-group row">
+        <label for="type" class="col-3 col-sm-3 col-form-label">Type </label>
+        <div class="col-6 col-sm-6">
+          <input type="text" nbInput fullWidth id="type" placeholder="Type" formControlName="type">
+        </div>
+      </div>
+
+      <!-- SKU -->
+      <div class="mg-top form-group row">
+        <label for="sku" class="col-3 col-sm-3 col-form-label">SKU</label>
+        <div class="col-3 col-sm-3">
+          <input type="text" nbInput fullWidth id="sku" placeholder="sku" formControlName="sku">
+        </div>
+      </div>
+
+      <!-- EAN  -->
+      <div class="mg-top form-group row">
+        <label for="ean" class="col-3 col-sm-3 col-form-label">EAN</label>
+        <div class="col-3 col-sm-3">
+          <input type="text" nbInput fullWidth id="ean" placeholder="EAN" formControlName="ean">
+        </div>
+      </div>
+
+      <!-- UPC  -->
+      <div class="mg-top form-group row">
+        <label for="UPC" class="col-3 col-sm-3 col-form-label">UPC</label>
+        <div class="col-3 col-sm-3">
+          <input type="text" nbInput fullWidth id="UPC" placeholder="UPC" formControlName="upc">
+        </div>
+      </div>
+
+      <!-- ISBN  -->
+      <div class="mg-top form-group row">
+        <label for="ISBN" class="col-3 col-sm-3 col-form-label">ISBN</label>
+        <div class="col-3 col-sm-3">
+          <input type="text" nbInput fullWidth id="ISBN" placeholder="ISBN" formControlName="isbn">
+        </div>
+      </div>
+
+
+      <!-- HSCode  -->
+      <div class="mg-top form-group row">
+        <label for="HSCode" class="col-3 col-sm-3 col-form-label">HS Code</label>
+        <div class="col-3 col-sm-3">
+          <input type="text" nbInput fullWidth id="HSCode" placeholder="HS Code" formControlName="hsCode">
+        </div>
+      </div>
+
+      <!-- supplier code -->
+      <div class="mg-top form-group row">
+        <label for="supplierCode" class="col-3 col-sm-3 col-form-label">Supplier Code</label>
+        <div class="col-3 col-sm-3">
+          <input type="text" nbInput fullWidth id="supplierCode" placeholder="Code" formControlName="supplierCode">
+        </div>
+      </div>
+
+      <!--Variant avg supply time-->
+      <div class="mg-top form-group row">
+        <label for="AvgSupplyTime" class="col-3 col-sm-3 col-form-label">Average supply time</label>
+        <div class="col-3 col-sm-3">
+          <input type="number" nbInput fullWidth id="AvgSupplyTime" placeholder="Average supply time" formControlName="avgSupplyTime">
+        </div>
+      </div>
+
+      <!--Variant Weight-->
+      <div class="mg-top form-group row">
+        <label for="Weight" class="col-3 col-sm-3 col-form-label">Weight </label>
+        <div class="col-3 col-sm-3">
+          <input type="text" nbInput fullWidth id="Weight" placeholder="Weight" formControlName="weight">
+        </div>
+      </div>
+
+      <!--Line number -->
+      <div class="mg-top form-group row">
+        <label for="LineNumber" class="col-3 col-sm-3 col-form-label">Line number</label>
+        <div class="col-3 col-sm-3">
+          <input type="number" nbInput fullWidth id="LineNumber" placeholder="Average supply time" formControlName="lineNumber">
+        </div>
+      </div>
+
+      <!--Line moq -->
+      <div class="mg-top form-group row">
+        <label for="moq" class="col-3 col-sm-3 col-form-label">MOQ</label>
+        <div class="col-6 col-sm-6">
+          <input type="number" nbInput fullWidth id="moq" placeholder="MOQ" formControlName="moq">
+        </div>
+      </div>
+
+      <!--moq -->
+      <div class="mg-top form-group row">
+        <label for="InitialStockLevel" class="col-3 col-sm-3 col-form-label">Initial stock level</label>
+        <div class="col-3 col-sm-3">
+          <input type="number" nbInput fullWidth id="InitialStockLevel" placeholder="Initial stock level" formControlName="initialStockLevel">
+        </div>
+      </div>
+
+
+      <!--taxe information -->
+      <ng-container formGroupName="taxe">
+        <div class="mg-top form-group row">
+          <label for="taxe" class="col-3 col-sm-3 col-form-label">Taxe information</label>
+          <div class="col-9 col-sm-9">
+            <nb-select id="taxe" #taxeSelected placeholder="-- Select a taxe information --" formControlName="id"
+                       style="width:100%" aria-describedby="newStatus" *ngFor="let taxeItem of taxes" [selected]="selectedTaxe">
+              <nb-option value="0">
+                -- Empty --
+              </nb-option>
+              <nb-option [value]="taxeItem.id">
+                {{taxeItem.name}} [ {{taxeItem.rate}} ]
+              </nb-option>
+            </nb-select>
+          </div>
+        </div>
+      </ng-container>
+
+      <!--Parameter -->
+      <ng-container formGroupName="parameter">
+        <div class="mg-top form-group row">
+          <label for="parameter" class="col-3 col-sm-3 col-form-label">Parameter</label>
+          <div class="col-9 col-sm-9">
+            <nb-select id="parameter" placeholder="-- Select a parameter --" formControlName="id" style="width:100%"
+                        [selected]="selectedParameter">
+              <nb-option *ngFor="let parameter of parameters"  [value]="parameter.id">
+                {{parameter.name}}
+              </nb-option>
+            </nb-select>
+            <div class="text-danger" *ngIf="formDir.submitted && formSecondGroupLevelHasError('parameter','id', 'required')">
+              Please select a parameter.
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+      <!--Supplier -->
+      <ng-container formGroupName="supplier">
+        <div class="mg-top form-group row">
+          <label for="supplier" class="col-3 col-sm-3 col-form-label">Supplier</label>
+          <div class="col-9 col-sm-9">
+            <nb-select id="supplier" placeholder="-- Select a supplier --" formControlName="id" style="width:100%"
+                       [selected]="selectedSupplier">
+              <nb-option *ngFor="let supplier of suppliers" [value]="supplier.id">
+                {{supplier.contact.firstName}}
+                {{supplier.contact.lastName}}
+              </nb-option>
+            </nb-select>
+            <!--<div class="text-danger" *ngIf="formDir.submitted && formSecondGroupLevelHasError('supplier','id', 'required')">
+              Please select a supplier.
+            </div>-->
+          </div>
+        </div>
+      </ng-container>
+
+
+      <!--Status -->
+      <ng-container formGroupName="status">
+        <div class="mg-top form-group row">
+          <label for="status" class="col-3 col-sm-3 col-form-label">Status</label>
+          <div class="col-9 col-sm-9">
+            <nb-select id="status" placeholder="-- Select a status --" formControlName="id" style="width:100%"
+                       selected="{{selectedStatus}}">
+              <nb-option *ngFor="let statusItem of status" value="{{statusItem.id}}">
+                {{statusItem.name}}
+              </nb-option>
+            </nb-select>
+            <div class="text-danger" *ngIf="formDir.submitted && formSecondGroupLevelHasError('status','id', 'required')">
+              Please select a status.
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+      <!-- Variant is taxable -->
+      <div class="mg-top form-group row">
+        <label for="taxable" class="col-3 col-sm-3 col-form-label"></label>
+        <div class="col-9 col-sm-9  float-right">
+          <nb-checkbox formControlName="isTaxable">Apply taxe to variant </nb-checkbox>
+        </div>
+      </div>
+
+      <!-- Variant status -->
+      <div class="mg-top form-group row">
+        <label for="active" class="col-3 col-sm-3 col-form-label"></label>
+        <div class="col-9 col-sm-9  float-right">
+          <nb-checkbox formControlName="isActive">Turn variant status to active </nb-checkbox>
+        </div>
+      </div>
+
+      <p class="text-danger" *ngIf="errorMessage">{{errorMessage}}</p>
+
+      <div class="mg-top form-group row">
+        <div class="offset-sm-3 col-sm-9">
+          <button type="submit" nbButton status="primary" [nbSpinner]="loading" nbSpinnerStatus="control">{{txtBtnSubmit}}</button>
+        </div>
+      </div>
+
+    </form>
+
+  </nb-card-body>
+</nb-card>

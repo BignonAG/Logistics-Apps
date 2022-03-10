@@ -1,0 +1,55 @@
+<ng-container *ngIf="invoices">
+  
+  <div class="container-fluid">
+    
+    
+    <!--*** row ***-->
+    <div class="row page-title">
+      <h5 class="col-lg-10 col-md-10 col-sm-12">Invoices</h5>
+    </div>
+    <!--*** row ***-->
+    <nb-card [nbSpinner]="loading" nbSpinnerStatus="control" nbSpinnerSize="large" nbSpinnerMessage="" class="row">
+      <nb-card-body class="full-width">
+        <p class="text-success" *ngIf="successMessage">{{successMessage}}</p>
+        <p class="text-danger" *ngIf="errorMessage">{{errorMessage}}</p>
+          <table class="table">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">Invoice reference</th>
+                <th scope="col">Customer</th>
+                <th scope="col">Order reference</th>
+                <th scope="col">Order total price</th>
+                <th scope="col">Created on</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody *ngIf="invoices">
+              <tr *ngFor="let invoice of invoices">
+                <td><a [routerLink]="['/app/order/'+invoice.order.id+'/invoice']"><b>{{invoice.referenceNumber}}</b></a></td>
+                <td>
+                  <a [routerLink]="['/app/customer', invoice.order.customer.id]">
+                    <b>{{invoice.order.customer.contact.firstName}} {{invoice.order.customer.contact.lastName}}</b>
+                  </a>
+                </td>
+                <td>
+                  <a [routerLink]="['/app/order', invoice.order.id]">
+                    <b>{{invoice.order.referenceNumber}}</b>
+                  </a>
+                </td>
+                <td>
+                  <b>{{invoice.order.totalPrice}} {{invoice.order.currency.currencySymbol}}</b>
+                </td>
+                <td>{{invoice.createdOn}}</td>
+                <td>
+                  <button nbButton ghost status="danger" (click)="delete(invoice.id)">
+                    <nb-icon icon="trash-2"></nb-icon>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        <p *ngIf="message">{{message}}</p>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</ng-container>

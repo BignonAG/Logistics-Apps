@@ -1,0 +1,118 @@
+<div>
+  <div class="row">
+
+    <!--Dashboard Total sales card view -->
+    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 col-xxl-3">
+      <nb-card accent="success">
+        <nb-card-header>Total sales</nb-card-header>
+        <nb-card-body>
+          <div>
+            <h2>
+              <nb-icon class="float-left card-icon" icon="activity-outline" status="success"></nb-icon>
+              <span class="float-right">$900K</span>
+              <br />
+              <span class="card-subheader float-right text-secondary">Last month: $18,890</span>
+            </h2>
+          </div>
+          <br />
+        </nb-card-body>
+      </nb-card>
+    </div>
+
+    <!--Dashboard Total net sales card view -->
+    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 col-xxl-3">
+      <nb-card accent="primary">
+        <nb-card-header>Revenue (Net sales)</nb-card-header>
+        <nb-card-body>
+          <div>
+            <h2>
+              <nb-icon class="float-left card-icon" icon="award-outline" status="primary"></nb-icon>
+              <span class="float-right">$720K</span>
+              <br />
+              <span class="card-subheader float-right text-secondary">Last month: $18,890</span>
+            </h2>
+          </div>
+        </nb-card-body>
+      </nb-card>
+    </div>
+
+    <!--Dashboard Total net sales card view -->
+    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 col-xxl-3">
+      <nb-card accent="warning">
+        <nb-card-header>Orders</nb-card-header>
+        <nb-card-body>
+          <div>
+            <h2>
+              <nb-icon class="float-left card-icon" icon="shopping-cart-outline" status="warning"></nb-icon>
+              <span class="float-right">998</span>
+              <br />
+              <span class="card-subheader float-right text-secondary">Last month: 98</span>
+            </h2>
+          </div>
+          <br />
+        </nb-card-body>
+      </nb-card>
+    </div>
+
+    <!--Dashboard Total customer card view -->
+    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 col-xxl-3">
+      <nb-card accent="danger">
+        <nb-card-header>Total customer</nb-card-header>
+        <nb-card-body>
+          <div>
+            <h2>
+              <nb-icon class="float-left card-icon" icon="person-done-outline" status="danger"></nb-icon>
+              <span class="float-right">308</span>
+              <br />
+              <span class="card-subheader float-right text-secondary">Last month: 62</span>
+            </h2>
+          </div>
+          <br />
+        </nb-card-body>
+      </nb-card>
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 col-xl-7 col-xxl-7">
+      <!-- Dashboard line chart ng2-chart.js-->
+      <app-line-chart-js></app-line-chart-js>
+    </div>
+
+    <!-- Dashboard pie chart ng2-chart.js-->
+    <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5 col-xl-5 col-xxl-5">
+      <nb-card class="chart-line2-card-height">
+        <nb-card-header>
+          Orders by country
+          <button nbButton size="small" ghost status="primary" class="float-right">
+            <nb-icon icon="download-outline"></nb-icon>
+            Export
+          </button>
+        </nb-card-header>
+        <nb-card-body>
+          <app-pie-echart></app-pie-echart>
+        </nb-card-body>
+      </nb-card>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Channel trafic-->
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 col-xxl-4">
+      <app-channels-trafic></app-channels-trafic>
+    </div>
+
+    <!-- Page view -->
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 col-xxl-4">
+      <app-page-view></app-page-view>
+    </div>
+
+    <!-- app best customer-->
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 col-xxl-4">
+      <app-best-customers></app-best-customers>
+    </div>
+
+  </div>
+
+</div>

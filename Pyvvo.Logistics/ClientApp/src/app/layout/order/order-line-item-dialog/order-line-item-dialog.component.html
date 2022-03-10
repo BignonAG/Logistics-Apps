@@ -1,0 +1,40 @@
+<nb-card size="large" [nbSpinner]="loading"
+         nbSpinnerStatus="primary"
+         nbSpinnerSize="large"
+         nbSpinnerMessage="">
+  <nb-card-header>
+    Select products
+  </nb-card-header>
+  <nb-card-body>
+    <table class="table table-borderless table-md">
+      <thead>
+        <tr style="text-indent:12px;">
+          <th scope="col">Product item name</th>
+          <th scope="col">SKU</th>
+          <th scope="col">Initial stock level</th>
+          <th scope="col">Price</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="products">
+        <ng-container *ngFor="let product of products">
+          <tr>
+            <td><nb-checkbox (change)="productChecked($event, product)"  [checked]="product.checked"><a href="#">{{product.name}}</a></nb-checkbox></td>
+          </tr>
+          <tr style="text-indent:20px;" *ngFor="let variant of product.variants">
+            <td><nb-checkbox (change)="variantChecked($event, variant, product)" [checked]="variant.checked"><a href="#">{{variant.name}}</a></nb-checkbox></td>
+            <td><span>{{variant.sku}} </span></td>
+            <td><span>{{variant.initialStockLevel}} </span></td>
+            <td><span>{{variant.retailPrice}} €</span></td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </nb-card-body>
+  <nb-card-footer>
+    <div class="float-right">
+      <button nbButton size="small" status="basic" class="btn-dialog" (click)="close()">Close</button>
+      <button nbButton size="small" status="primary" class="btn-dialog" (click)="submit()">Save</button>
+    </div>
+
+  </nb-card-footer>
+</nb-card>

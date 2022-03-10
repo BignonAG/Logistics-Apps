@@ -1,0 +1,71 @@
+<ng-container *ngIf="products">
+  
+  <div class="container-fluid">
+    
+    <!--*** row ***-->
+    <div class="row page-title">
+      <h5 class="col-lg-10 col-md-10 col-sm-12">Products</h5>
+      <div class="col-lg-2 col-md-2 col-sm-12">
+        <a class="float-right" [routerLink]="['/app/product/create']" nbButton status="primary" size="small">
+          <nb-icon icon="plus"></nb-icon>
+        </a>
+      </div>
+    </div>
+    <!--*** row ***-->
+    <nb-card [nbSpinner]="loading" nbSpinnerStatus="control" nbSpinnerSize="large" nbSpinnerMessage="" class="row" > 
+      <nb-card-body class="full-width">
+        <p class="text-success" *ngIf="successMessage">{{successMessage}}</p>
+        <p class="text-danger" *ngIf="errorMessage">{{errorMessage}}</p>
+          <table class="table">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">Product</th>
+              <th scope="col">Category</th>
+              <th scope="col">Added date</th>
+              <!--<th scope="col">Price</th>-->
+              <th scope="col"></th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody *ngIf="products">
+            <ng-container>
+              <tr *ngFor="let product of products;  let i = index;">
+                <td>
+                  <img *ngIf="product.image != null && product.image.pathUrl; else noPathurl"
+                  [src]="product.image.pathUrl" alt="contact-img" title="contact-img" class="rounded mr-3" height="68" width="68" />
+                  <ng-template #noPathurl>
+                    <img src="assets/product-6.jpg" alt="contact-img" title="contact-img" class="rounded mr-3" height="68" width="68" />
+                  </ng-template>
+                  <p class="m-0 d-inline-block align-middle font-16">
+                    <a [routerLink]="['/app/product', product.id]" class="text-body">{{product.name}}</a>
+                  </td>
+                  <td>
+                    {{product.productCategory.name}}
+                  </td>
+                  <td>
+                    {{product.createdOn}}
+                  </td>
+                  <!--<td>
+                    ${{variant.retailPrice}}
+                  </td>-->
+                  
+                  <td>
+                    <span class="badge badge-success">{{product.status.name}}</span>
+                  </td>
+                  <td>
+                    <a [routerLink]="['/app/product/update',product.id]" nbButton ghost status="warning"><nb-icon icon="edit"></nb-icon></a>
+                    <button nbButton ghost status="danger" (click)="delete(product.id)">
+                      <nb-icon icon="trash-2"></nb-icon>
+                    </button>
+                  </td>
+                </tr>
+              </ng-container>
+              
+            </tbody>
+            
+          </table>
+        <p *ngIf="message">{{message}}</p>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</ng-container>

@@ -1,0 +1,276 @@
+<!--<a class="float-right" (click)="openDialog()" nbButton status="primary" size="small">
+  Open
+</a>-->
+
+<nb-card [nbSpinner]="cardLoading"
+         nbSpinnerStatus="danger"
+         nbSpinnerSize="large"
+         nbSpinnerMessage="">
+  <nb-card-header>
+    {{formTitle}}
+  </nb-card-header>
+
+  <nb-card-body>
+    <form style="padding:20px;" [formGroup]="productForm" (ngSubmit)="upsert(productForm.value)" #formDir="ngForm" novalidate>
+
+      <!--Product name-->
+      <div class="mg-top form-group row">
+        <label for="name" class="col-3 col-sm-3 col-form-label">Product name</label>
+        <div class="col-9 col-sm-9">
+          <input type="text" nbInput fullWidth id="name" placeholder="Name" formControlName="name">
+          <div class="text-danger" *ngIf="formDir.submitted && formHasError('name', 'required')">
+            Product name is required.
+          </div>
+        </div>
+      </div>
+
+      <!--Description-->
+      <div class="mg-top form-group row">
+        <label for="description" class="col-3 col-sm-3 col-form-label">Product description</label>
+        <div class="col-9 col-sm-9">
+          <textarea nbInput fullWidth placeholder="Textarea" formControlName="description" id="description"></textarea>
+        </div>
+      </div>
+
+      <!--Product category -->
+      <ng-container formGroupName="productCategory">
+        <div class="mg-top form-group row">
+          <label for="productCategory" class="col-3 col-sm-3 col-form-label">Product category</label>
+          <div class="col-9 col-sm-9">
+            <nb-select id="productCategory" placeholder="-- Select a categry --"
+                       formControlName="id" style="width:100%" selected="{{selectedCategory}}">
+              <nb-option *ngFor="let category of productCategories" value="{{category.id}}">
+                {{category.name}}
+              </nb-option>
+            </nb-select>
+            <div class="text-danger" *ngIf="formDir.submitted && formSecondGroupLevelHasError('productCategory','id', 'required')">
+              Please select a category.
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+      <!-- Product image -->
+      <div class="mg-top form-group row">
+        <label for="name" class="col-3 col-sm-3 col-form-label">Product image</label>
+        <div class="col-9 col-sm-9">
+          <div class="row">
+            <div class="col-12">
+              <a class="float-left" (click)="openDialog()" nbButton status="primary" size="tiny" style="margin-top: 6px;">
+                Select product image
+              </a>
+            </div>
+          </div>
+          <div class="row" style="margin-top:20px;">
+            <div class="col-12">
+              <img *ngIf="imageUrl" [src]="imageUrl" class="img-fluid rounded" alt="Responsive image" width="400">
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!--taxe information -->
+      <ng-container formGroupName="taxe">
+        <div class="mg-top form-group row">
+          <label for="taxe" class="col-3 col-sm-3 col-form-label">Taxe information</label>
+          <div class="col-9 col-sm-9">
+            <nb-select id="taxe" #taxeSelected placeholder="-- Select a taxe information --" formControlName="id"
+                       style="width:100%" aria-describedby="newStatus"  *ngFor="let taxeItem of taxes" [selected]="selectedTaxe">
+              <nb-option value="0">
+                -- Empty --
+              </nb-option>
+              <nb-option [value]="taxeItem.id">
+                {{taxeItem.name}} [ {{taxeItem.rate}} ]
+              </nb-option>
+            </nb-select>
+          </div>
+        </div>
+      </ng-container>
+
+
+      <ng-container formGroupName="variant" *ngIf="!hasMultipleVariant">
+
+        <!--Retail price-->
+        <div class="mg-top form-group row">
+          <label for="retailPrice" class="col-3 col-sm-3 col-form-label">Retail price</label>
+          <div class="col-3 col-sm-3">
+            <input type="number" nbInput fullWidth id="retailPrice" placeholder="0.00" formControlName="retailPrice">
+            <div class="text-danger" *ngIf="formDir.submitted && formSecondGroupLevelHasError('variant', 'retailPrice', 'required')">
+              Product name is required.
+            </div>
+          </div>
+        </div>
+
+        <!-- Special price -->
+        <div class="mg-top form-group row">
+          <label for="specialPrice" class="col-3 col-sm-3 col-form-label">Special price</label>
+          <div class="col-3 col-sm-3">
+            <input type="number" nbInput fullWidth id="specialPrice" placeholder="0.00" formControlName="specialPrice">
+          </div>
+        </div>
+
+
+        <!-- SKU -->
+        <div class="mg-top form-group row">
+          <label for="sku" class="col-3 col-sm-3 col-form-label">SKU</label>
+          <div class="col-3 col-sm-3">
+            <input type="text" nbInput fullWidth id="sku" placeholder="sku" formControlName="sku">
+          </div>
+        </div>
+
+      </ng-container>
+
+      <div class="mg-top form-group row">
+        <div class="offset-sm-3 col-sm-9">
+          <nb-toggle [(checked)]="hasMultipleVariant" labelPosition="end">
+            This product has more than one variant
+          </nb-toggle>
+        </div>
+      </div>
+
+      <div *ngIf="hasMultipleVariant" class="margin-top" formArrayName="options">
+        <!--*ngIf="hasMultipleVariant"-->
+        <h6>Options</h6>
+        <hr />
+        <div *ngFor="let option of options; let i = index">
+
+          <div class="mg-top form-group row" [formGroupName]="i">
+            <label for="option{{optionIndex}}" class="col-3 col-sm-3 col-form-label">Option {{i + 1}}</label>
+
+            <div class="col-3 col-sm-3">
+              <input type="text" nbInput fullWidth id="option{{optionIndex}}" placeholder="{{option.name}}" formControlName="name">
+            </div>
+
+            <div class="col-5 col-sm-5">
+              <input type="text" nbInput fullWidth id="optionValue{{optionIndex}}" placeholder="Press key [enter] to add option"
+                     formControlName="optionValue" #item (keyup.enter)="addOptionItem(option, item.value)">
+            </div>
+
+            <div class="col-1 col-sm-1" style="margin-top: 8px;">
+              <a nbButton ghost status="danger" size="tiny" (click)="deleteOption(option)" *ngIf="optionIndex != 1">Delete</a>
+            </div>
+          </div>
+
+          <div class="mg-top form-group row">
+            <div class="offset-sm-3 col-sm-9">
+              <div class="md-chip" *ngFor="let value of option.optionValues" style="margin-top:6px;">
+                <span><b>{{value}}</b></span>
+                <button type="button" class="md-chip-remove" (click)="deleteOptionItem(option, value)">
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="mg-top form-group row" [hidden]="!canAddOption">
+          <div class="offset-sm-3 col-sm-9">
+            <a nbButton size="tiny" status="primary" (click)="addOption()">Add another option</a>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div *ngIf="variantNames.length > 0" class="margin-top">
+        <h6>Variants</h6>
+        <hr />
+        <div formArrayName="variants" *ngFor="let item of productForm.get('variants').controls; let i = index;">
+          <div [formGroupName]="i" class="margin-bottom">
+
+            <!--Variant name-->
+            <div class="mg-top form-group row">
+              <label for="name" class="col-3 col-sm-3 col-form-label">Variant name</label>
+              <div class="col-3 col-sm-3">
+                <input type="text" nbInput fullWidth id="name" formControlName="retailPrice" [value]="item.get('name').value">
+              </div>
+            </div>
+
+            <!--Retail price-->
+            <div class="mg-top form-group row">
+              <label for="retailPrice" class="col-3 col-sm-3 col-form-label">Retail price</label>
+              <div class="col-3 col-sm-3">
+                <input type="number" nbInput fullWidth id="retailPrice" placeholder="0.00" formControlName="retailPrice">
+              </div>
+            </div>
+
+            <!-- Special price -->
+            <div class="mg-top form-group row">
+              <label for="specialPrice" class="col-3 col-sm-3 col-form-label">Special price</label>
+              <div class="col-3 col-sm-3">
+                <input type="number" nbInput fullWidth id="specialPrice" placeholder="0.00" formControlName="specialPrice">
+              </div>
+            </div>
+
+
+            <!-- SKU -->
+            <div class="mg-top form-group row">
+              <label for="sku" class="col-3 col-sm-3 col-form-label">SKU</label>
+              <div class="col-3 col-sm-3">
+                <input type="text" nbInput fullWidth id="sku" placeholder="sku" formControlName="sku">
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <hr class="margin-top">
+
+      <!--Status -->
+      <ng-container formGroupName="status">
+        <div class="mg-top form-group row">
+          <label for="status" class="col-3 col-sm-3 col-form-label">Status</label>
+          <div class="col-9 col-sm-9">
+            <nb-select id="status" placeholder="-- Select a status --" formControlName="id" style="width:100%" selected="{{selectedStatus}}">
+              <nb-option *ngFor="let statusItem of status" value="{{statusItem.id}}">
+                {{statusItem.name}}
+              </nb-option>
+            </nb-select>
+            <div class="text-danger" *ngIf="formDir.submitted && formSecondGroupLevelHasError('status','id', 'required')">
+              Please select a status.
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+      <!--Tags-->
+      <div class="mg-top form-group row">
+        <label for="tags" class="col-3 col-sm-3 col-form-label">Tags</label>
+        <div class="col-9 col-sm-9">
+          <input type="text" nbInput fullWidth id="tags" placeholder="Press key [enter] to add a tag" formControlName="tags" autocomplete="off"
+                 #tag (keyup.enter)="addTag(tag.value)">
+        </div>
+      </div>
+
+      <div class="mg-top form-group row">
+        <div class="offset-sm-3 col-sm-9">
+          <div class="md-chip" *ngFor="let tag of tags" style="margin-top:6px;">
+            <span><b>{{tag}}</b></span>
+            <button type="button" class="md-chip-remove" (click)="deleteTag(value)">
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="mg-top form-group row">
+        <label for="active" class="col-3 col-sm-3 col-form-label"></label>
+        <div class="col-9 col-sm-9  float-right">
+          <nb-checkbox formControlName="isActive">Turn product status to active </nb-checkbox>
+        </div>
+      </div>
+
+      <p class="text-danger" *ngIf="errorMessage">{{errorMessage}}</p>
+
+      <div class="mg-top form-group row">
+        <div class="offset-sm-3 col-sm-9">
+          <button type="submit" nbButton status="primary" [nbSpinner]="loading" nbSpinnerStatus="control">{{txtBtnSubmit}}</button>
+        </div>
+      </div>
+
+    </form>
+
+  </nb-card-body>
+</nb-card>

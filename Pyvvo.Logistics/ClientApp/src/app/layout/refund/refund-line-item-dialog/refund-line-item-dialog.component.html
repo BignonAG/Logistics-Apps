@@ -1,0 +1,55 @@
+<nb-card size="large" [nbSpinner]="loading"
+         nbSpinnerStatus="primary"
+         nbSpinnerSize="large"
+         nbSpinnerMessage="">
+
+  <nb-card-header>
+    Select order line item to refund
+  </nb-card-header>
+  <nb-card-body>
+    <table class="table table-borderless table-md">
+      <thead>
+        <tr >
+          <th scope="col" style="padding-left:12px;">Order product item </th>
+          <th scope="col">Price</th>
+          <th></th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Total price</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="orders">
+        <ng-container *ngFor="let order of orders">
+          <tr>
+            <td>
+              <nb-checkbox (change)="orderChecked($event, order)" [checked]="order.checked" [disabled]="order.disabled">
+                <a href="#">{{order.referenceNumber}}</a>
+              </nb-checkbox>
+            </td>
+          </tr>
+          <tr style="text-indent:20px;" *ngFor="let lineItem of order.orderLineItems">
+            <td>
+              <nb-checkbox (change)="lineItemChecked($event, lineItem, order)" [checked]="lineItem.checked" [disabled]="lineItem.disabled">
+                <a href="#" *ngIf="lineItem.variant">{{lineItem.variant.name}}</a>
+              </nb-checkbox>
+            </td>
+            <td *ngIf="lineItem.variant">{{lineItem.variant.retailPrice}} {{order.currency.currencySymbol}}</td>
+            <td>x</td>
+
+            <td>
+              <input type="number" nbInput id="qte" fullWidth fieldSize="tiny"
+                     [value]="lineItem.quantity" (change)="onQteChange($event, lineItem)" min="1" [max]="lineItem.maxQuantity">
+            </td>
+            <td>{{lineItem.totalPrice}} {{order.currency.currencySymbol}}</td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </nb-card-body>
+  <nb-card-footer>
+    <div class="float-right">
+      <button nbButton size="small" status="basic" class="btn-dialog" (click)="close()">Close</button>
+      <button nbButton size="small" status="primary" class="btn-dialog btn-dialog-save" (click)="submit()">Save</button>
+    </div>
+
+  </nb-card-footer>
+</nb-card>

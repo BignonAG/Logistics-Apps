@@ -1,0 +1,101 @@
+<ng-container *ngIf="refund">
+  <h5>
+    Refund detail <br />
+    <span style="font-size:14px;">Reference number: {{refund.referenceNumber}}</span>
+  </h5>
+
+  <div class="row" *ngIf="refund">
+    <div class="col-lg-8 col-md-8 col-sm-12">
+      <nb-card>
+        <nb-card-header>
+          <span style="font-size:14px;">
+            Order refund detail 
+          </span>
+        </nb-card-header>
+        <nb-card-body>
+          <table class="table table-borderless">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Variant name</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Variant retail price</th>
+                <th scope="col">Total price</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of refund.refundLineItems; let i = index;">
+                <th scope="row">{{i+1}}</th>
+                <td *ngIf="item.orderLineItem.variant"><a [routerLink]="['/app/variant', item.orderLineItem.variant.id ]"><b>{{item.orderLineItem.variant.name}}</b></a></td>
+                <td>{{item.quantity}}</td>
+                <td *ngIf="item.orderLineItem.variant">{{item.orderLineItem.variant.retailPrice}} {{refund.order.currency.currencySymbol}}</td>
+                <td *ngIf="item.orderLineItem.variant"> {{item.orderLineItem.variant.retailPrice * item.quantity}} {{refund.order.currency.currencySymbol}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </nb-card-body>
+      </nb-card>
+
+      <nb-card>
+
+        <nb-card-header>
+          Order refund summary
+        </nb-card-header>
+        <nb-card-body>
+          <table class="table table-borderless table-sm">
+            <tbody >
+              <tr>
+                <td><b>Grand Total: </b></td>
+                <td>{{refund.totalPrice}} {{refund.order.currency.currencySymbol}}</td>
+              </tr>
+              <tr>
+                <td><b>Shipping Charge: </b></td>
+                <td>{{shippingCharge}} {{refund.order.currency.currencySymbol}}</td>
+              </tr>
+              <tr>
+                <td><b>Total Tax: </b></td>
+                <td>{{totalTax}} {{refund.order.currency.currencySymbol}}</td>
+              </tr>
+              <tr>
+                <td><b>Total:</b> </td>
+                <td><b>{{total}} {{refund.order.currency.currencySymbol}}</b></td>
+              </tr>
+            </tbody>
+          </table>
+
+        </nb-card-body>
+      </nb-card>
+    </div>
+
+    <div class="col-lg-4 col-md-4 col-sm-12">
+      <nb-card>
+        <nb-card-header>
+          Order reference number: {{refund.order.referenceNumber}}
+        </nb-card-header>
+        <nb-card-body>
+          <table class="table table-borderless table-sm">
+            <tbody>
+              <tr>
+                <td><b>Customer: </b></td>
+                <td *ngIf="refund.order.customer">
+                  <a [routerLink]="['/app/customer', refund.order.customer.id ]">
+                    {{refund.order.customer.contact.firstName}} {{refund.order.customer.contact.lastName}}
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <td><b>Order total line item: </b></td>
+                <td> {{refund.order.orderLineItems.length}} </td>
+              </tr>
+              <tr>
+                <td><b>Order Total price: </b></td>
+                <td>{{refund.order.totalPrice}} {{refund.order.currency.currencySymbol}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </nb-card-body>
+      </nb-card>
+    </div>
+
+  </div>
+</ng-container>

@@ -1,0 +1,23 @@
+<div class="container-fluid">
+  <!--<h2 class="text-center">Create an account </h2>-->
+  <p class="text-danger text-center" *ngIf="errorMessage">{{errorMessage}}</p>
+  <form [formGroup]="statusCategForm" (ngSubmit)="createStatusCateg(statusCategForm.value)" #formDir="ngForm" novalidate style="padding:20px;">
+
+    <div class="mg-top form-group row">
+      <label for="name" class="col-3 col-sm-3 col-form-label">Status category name</label>
+      <div class="col-9 col-sm-9">
+        <input type="text" nbInput fullWidth id="name" placeholder="Status category name" formControlName="name">
+        <span class="text-danger" *ngIf="statusCategForm.hasError('required', ['name']) && formDir.submitted">
+          Please enter a valid name.
+        </span>
+      </div>
+    </div>
+
+    <div class="mg-top form-group row">
+      <div class="offset-sm-3 col-sm-9">
+        <button type="submit" nbButton status="primary">Create</button>
+      </div>
+    </div>
+  </form>
+
+</div>
